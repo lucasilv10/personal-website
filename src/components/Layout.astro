@@ -1,0 +1,43 @@
+---
+import Navigation from "./Navigation.astro";
+import Footer from "./Footer.astro";
+import LeftRailAccent from "./LeftRailAccent.astro";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Luca Silveira",
+  description = "Product manager and business student interested in AI, global markets, logistics, marketplaces, and Brazil."
+} = Astro.props;
+
+const pageTitle = title === "Luca Silveira" ? title : `${title} — Luca Silveira`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <LeftRailAccent />
+    <Navigation />
+    <main class="relative z-[1] mx-auto w-full max-w-archive px-5 py-8 pr-28 sm:py-10 sm:pr-36 lg:pr-40">
+      <slot />
+    </main>
+    <div class="relative z-[1]">
+      <Footer />
+    </div>
+  </body>
+</html>

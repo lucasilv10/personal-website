@@ -1,0 +1,21 @@
+---
+interface Props {
+  title: string;
+  role?: string;
+  subtitle?: string;
+  description: string;
+  meta?: string;
+}
+
+const { title, role, description } = Astro.props;
+---
+
+<article class="relative py-3 pl-7 before:absolute before:left-[5px] before:top-0 before:h-full before:w-px before:bg-rule after:absolute after:left-0 after:top-5 after:h-2.5 after:w-2.5 after:rounded-full after:border after:border-ink after:bg-paper">
+  <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+    <div>
+      <h2 class="text-2xl font-normal text-ink">{title}</h2>
+      {role && <p class="mt-1 text-xs uppercase tracking-[0.14em] text-muted">{role}</p>}
+    </div>
+  </div>
+  <p class="mt-3 max-w-3xl text-base leading-7 text-muted">{description}</p>
+</article>

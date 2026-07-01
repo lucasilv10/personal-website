@@ -1,0 +1,57 @@
+---
+import Layout from "../components/Layout.astro";
+
+const qa = [
+  {
+    question: "A childhood trait i still carry with me",
+    answer:
+      "I’ve always been a bit like a chameleon of environments. I’m just as curious talking to the fisherman under the bridge as I am talking to the person selling his 40 foot center console boat, whether that’s in English, Spanish, Portuguese, or a language I don’t fully know. I think that curiosity makes me comfortable around very different kinds of people."
+  },
+  {
+    question: "A product space I'm excited about",
+    answer:
+      "I’m interested in how U.S. consumer apps help people make better decisions, whether that’s around money, health, productivity, etc... and the potential of those products if they were built tailored for Latin America."
+  },
+  {
+    question: "Experience that shaped me",
+    answer:
+      "Backpacking through Southeast Asia made life feel simpler in the best way. It helped me think more clearly about what deserves my energy, how to be a more forgiving person, and how short and sweet the present moment really is."
+  },
+  {
+    question: "When I feel most like myself",
+    answer:
+      "I feel most like myself when I’m fully present. Sometimes that’s on a soccer field or in a high-stakes moment, and other times it’s around family and close friends where I’m relaxed and not filtering anything."
+  }
+];
+---
+
+<Layout
+  title="Interview"
+  description="A Q&A-style interview page with Luca Silveira on curiosity, culture, product ideas, and presence."
+>
+  <header class="mb-6">
+    <h1 class="max-w-4xl text-4xl font-normal leading-tight tracking-normal text-ink sm:text-5xl">
+      Interview
+    </h1>
+    <p class="mt-6 max-w-3xl text-lg leading-8 text-muted">A bit more about me...</p>
+    <div class="mt-6 h-0.5 w-full bg-ink" aria-hidden="true" />
+  </header>
+
+  <div class="mt-8 grid gap-8 sm:grid-cols-[240px_1fr] sm:items-start lg:gap-12">
+    <img
+      src="/images/luca-headshot.png"
+      alt="Luca Silveira headshot"
+      class="w-56 max-w-full border border-rule object-cover sm:mt-1 sm:w-full"
+    />
+    <section class="max-w-3xl sm:pl-2">
+      {
+        qa.map((item) => (
+          <article class="py-6 first:pt-0">
+            <h2 class="text-lg font-normal leading-7 text-ink">{item.question}</h2>
+            <p class="mt-3 max-w-3xl text-sm leading-6 text-muted">{item.answer}</p>
+          </article>
+        ))
+      }
+    </section>
+  </div>
+</Layout>

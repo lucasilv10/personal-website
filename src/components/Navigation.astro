@@ -1,0 +1,135 @@
+---
+const navItems = [
+  { href: "/", label: "About", navKey: "about" },
+  { href: "/#projects", label: "Projects", navKey: "projects" },
+  { href: "/#writing", label: "Writing", navKey: "writing" },
+  { href: "/interview", label: "Interview" },
+  {
+    href: "https://www.linkedin.com/in/luca-l-silveira/",
+    label: "LinkedIn",
+    external: true
+  }
+];
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+
+<nav
+  class="fixed right-5 top-6 z-10 flex w-40 flex-col items-stretch gap-3 text-sm text-muted sm:right-10 sm:top-8 sm:w-48 lg:right-14 lg:top-10 lg:w-56 xl:right-16"
+  aria-label="Primary navigation"
+>
+  {
+    navItems.map((item) => {
+      const isActive =
+        item.href === "/"
+          ? currentPath === "/"
+          : !item.external && currentPath === item.href;
+      const navKey = item.navKey;
+      return (
+        <a
+          href={item.href}
+          target={item.external ? "_blank" : undefined}
+          rel={item.external ? "noreferrer" : undefined}
+          data-nav-link={navKey}
+          class:list={[
+            "group flex items-center justify-between gap-4 no-underline transition-all duration-300 ease-out hover:-translate-x-1 hover:text-ink",
+            isActive ? "-translate-x-2 text-ink" : ""
+          ]}
+        >
+          <span
+            data-nav-label={navKey}
+            class:list={[
+              "origin-right transition-all duration-300 ease-out group-hover:font-medium",
+              isActive ? "scale-[1.04] font-medium" : ""
+            ]}
+          >
+            {item.label}
+          </span>
+          <span
+            data-nav-line={navKey}
+            class:list={[
+              "h-px flex-1 origin-left transition-all duration-300 ease-out",
+              isActive ? "scale-x-110 bg-ink" : "scale-x-100 bg-rule group-hover:scale-x-105 group-hover:bg-ink"
+            ]}
+            aria-hidden="true"
+          />
+        </a>
+      );
+    })
+  }
+</nav>
+
+<script>
+  const activateNav = (key: string) => {
+    document.querySelectorAll("[data-nav-link]").forEach((link) => {
+      const isActive = link.getAttribute("data-nav-link") === key;
+      link.classList.toggle("text-ink", isActive);
+      link.classList.toggle("text-muted", !isActive);
+      link.classList.toggle("-translate-x-2", isActive);
+    });
+
+    document.querySelectorAll("[data-nav-label]").forEach((label) => {
+      const isActive = label.getAttribute("data-nav-label") === key;
+      label.classList.toggle("scale-[1.04]", isActive);
+      label.classList.toggle("font-medium", isActive);
+    });
+
+    document.querySelectorAll("[data-nav-line]").forEach((line) => {
+      const isActive = line.getAttribute("data-nav-line") === key;
+      line.classList.toggle("bg-ink", isActive);
+      line.classList.toggle("bg-rule", !isActive);
+      line.classList.toggle("scale-x-110", isActive);
+      line.classList.toggle("scale-x-100", !isActive);
+    });
+  };
+
+  let navScrollInitialized = false;
+
+  const initNavScroll = () => {
+    if (navScrollInitialized) return;
+
+    const sections = Array.from(document.querySelectorAll("[data-nav-section]"));
+    if (!sections.length) {
+      window.setTimeout(initNavScroll, 100);
+      return;
+    }
+
+    navScrollInitialized = true;
+    let lastScrollY = -1;
+
+    const updateActiveSection = () => {
+      const marker = window.innerHeight * 0.48;
+      const activeSection =
+        sections
+          .map((section) => ({
+            key: section.getAttribute("data-nav-section") || "about",
+            top: section.getBoundingClientRect().top
+          }))
+          .filter((section) => section.top <= marker)
+          .pop() || { key: "about" };
+
+      activateNav(activeSection.key);
+    };
+
+    updateActiveSection();
+    window.addEventListener("scroll", updateActiveSection, { passive: true });
+    window.addEventListener("resize", updateActiveSection);
+
+    const syncOnScrollPositionChange = () => {
+      if (window.scrollY !== lastScrollY) {
+        lastScrollY = window.scrollY;
+        updateActiveSection();
+      }
+    };
+
+    window.setInterval(syncOnScrollPositionChange, 150);
+  };
+
+  if (window.location.pathname === "/") {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initNavScroll, { once: true });
+    } else {
+      initNavScroll();
+    }
+    window.addEventListener("load", initNavScroll, { once: true });
+  }
+</script>

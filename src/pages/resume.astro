@@ -1,0 +1,50 @@
+---
+import Layout from "../components/Layout.astro";
+import PageHeader from "../components/PageHeader.astro";
+
+const resumeUrl =
+  "https://drive.google.com/file/d/1V5s6RdriOmtpkxj7xBxAwU7t-fz4Y4W4/view?usp=sharing";
+---
+
+<Layout
+  title="Resume"
+  description="Resume overview for Luca Silveira, including current work, previous experience, and areas of focus."
+>
+  <PageHeader
+    eyebrow="Resume"
+    title="Product, marketplaces, logistics, GTM, and global markets."
+    description="A lightweight resume page for quick context, with the full resume linked below."
+  />
+
+  <p class="mb-8">
+    <a href={resumeUrl} target="_blank" rel="noreferrer" class="text-ink">
+      Open full resume
+    </a>
+  </p>
+
+  <section class="divide-y divide-rule border-y border-rule">
+    <div class="py-7">
+      <h2 class="text-sm font-medium uppercase tracking-[0.14em] text-muted">Current</h2>
+      <p class="mt-4 text-xl text-ink">Product Management Intern, Uber Freight</p>
+      <p class="mt-3 max-w-3xl leading-7 text-muted">
+        Working on AI shipment summaries and risk reasons to make freight context faster
+        to understand and act on.
+      </p>
+    </div>
+    <div class="py-7">
+      <h2 class="text-sm font-medium uppercase tracking-[0.14em] text-muted">Previously</h2>
+      <ul class="mt-4 space-y-3 leading-7 text-muted">
+        <li><span class="text-ink">Instawork</span> — growth, product marketing, and GTM</li>
+        <li><span class="text-ink">Fuse Capital</span> — LatAm/Web3 investing research</li>
+        <li><span class="text-ink">Bond Consulting Group</span> — product and GTM consulting</li>
+      </ul>
+    </div>
+    <div class="py-7">
+      <h2 class="text-sm font-medium uppercase tracking-[0.14em] text-muted">Focus</h2>
+      <p class="mt-4 max-w-3xl leading-7 text-muted">
+        AI products, global markets, logistics, marketplaces, Brazilian business behavior,
+        product strategy, and practical go-to-market work.
+      </p>
+    </div>
+  </section>
+</Layout>

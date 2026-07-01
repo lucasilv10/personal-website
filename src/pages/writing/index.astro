@@ -1,0 +1,29 @@
+---
+import Layout from "../../components/Layout.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import ArticleList from "../../components/ArticleList.astro";
+import { getCollection } from "astro:content";
+
+const writing = (await getCollection("writing")).sort((a, b) => {
+  const aUnpublished = a.data.readingTime === "TBD";
+  const bUnpublished = b.data.readingTime === "TBD";
+
+  if (aUnpublished !== bUnpublished) {
+    return aUnpublished ? 1 : -1;
+  }
+
+  return b.data.date.valueOf() - a.data.date.valueOf();
+});
+---
+
+<Layout
+  title="Writing"
+  description="Essays and notes by Luca Silveira on AI, Brazil, logistics, marketplaces, and enterprise software."
+>
+  <PageHeader
+    eyebrow="Writing"
+    title="Notes on AI, markets, trust, logistics, and Brazil."
+    description="A small Markdown-powered archive of essays, ideas, and working observations."
+  />
+  <ArticleList articles={writing} />
+</Layout>

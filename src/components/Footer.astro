@@ -1,0 +1,89 @@
+---
+const year = new Date().getFullYear();
+const links = [
+  { href: "mailto:lucasilv@umich.edu", label: "Email", icon: "mail" },
+  {
+    href: "https://www.linkedin.com/in/luca-l-silveira/",
+    label: "LinkedIn",
+    icon: "linkedin",
+    external: true
+  },
+  {
+    href: "https://drive.google.com/file/d/1V5s6RdriOmtpkxj7xBxAwU7t-fz4Y4W4/view?usp=sharing",
+    label: "Resume",
+    icon: "file",
+    external: true
+  }
+];
+---
+
+<footer class="mt-10 border-t border-rule">
+  <div class="mx-auto flex w-full max-w-archive flex-col gap-6 px-5 py-6 pr-28 text-sm text-muted sm:flex-row sm:items-end sm:justify-between sm:pr-36 lg:pr-40">
+    <div>
+      <p>© {year} Luca Silveira</p>
+      <p class="mt-1">Miami, FL</p>
+    </div>
+    <section class="sm:text-right" aria-label="Connect with Me">
+      <h2 class="mb-3 text-xs font-medium uppercase tracking-[0.16em] text-muted">
+        Connect with Me
+      </h2>
+      <div class="flex flex-wrap gap-2 sm:justify-end">
+        {
+          links.map((link) => (
+            <a
+              href={link.href}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noreferrer" : undefined}
+              class="inline-flex items-center gap-2 rounded-md border border-rule bg-[#fbfaf6] px-3 py-1.5 text-sm text-ink no-underline shadow-[0_1px_0_rgba(23,23,23,0.08),0_8px_18px_rgba(23,23,23,0.04)] transition-colors hover:border-ink"
+            >
+              {
+                link.icon === "mail" && (
+                  <svg
+                    aria-hidden="true"
+                    class="h-3.5 w-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.8"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M4 6h16v12H4z" />
+                    <path d="m4 7 8 6 8-6" />
+                  </svg>
+                )
+              }
+              {
+                link.icon === "linkedin" && (
+                  <svg aria-hidden="true" class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M6.9 8.7H3.8v11.1h3.1V8.7ZM5.4 4.2a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6Zm14.8 9.5c0-3-1.6-5.2-4.3-5.2-1.4 0-2.5.8-3 1.6h-.1V8.7h-3v11.1h3.1v-5.9c0-1.6.9-2.7 2.2-2.7 1.2 0 2 1 2 2.7v5.9h3.1v-6.1Z" />
+                  </svg>
+                )
+              }
+              {
+                link.icon === "file" && (
+                  <svg
+                    aria-hidden="true"
+                    class="h-3.5 w-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.8"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M7 3h7l4 4v14H7z" />
+                    <path d="M14 3v5h5" />
+                    <path d="M9.5 13h5" />
+                    <path d="M9.5 16h5" />
+                  </svg>
+                )
+              }
+              {link.label}
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</footer>
