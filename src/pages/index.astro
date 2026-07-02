@@ -20,42 +20,42 @@ const writing = (await getCollection("writing"))
 const selectedProjects = projects.slice(0, 3);
 const projectNotes = [
   {
-    title: "Shipment Risk Reasons",
-    image: "/images/projects/shipment-risk-reasons.png",
-    secondaryImage: "/images/projects/risk-reasons-planning.png",
-    secondaryLabel: "Planning",
-    imageFit: "contain",
-    experience: "Uber Freight Tracking",
-    description:
-      "AI-generated delay explanations that help freight teams understand shipment risk, identify likely causes, and act before exceptions become customer issues.",
-    tools: ["Figma", "SQL", "LLMs", "Freight Data"]
-  },
-  {
     title: "Tracking Page AI Summary",
     image: "/images/projects/tracking-page-ai-summary.png",
     secondaryImage: "/images/projects/tracking-page-before.png",
     secondaryLabel: "Before",
     imageFit: "contain",
-    experience: "Uber Freight Tracking",
+    experience: "Uber Freight",
     description:
-      "A tracking-page summary experience that turns shipment events, ETA changes, and delay signals into a clearer status narrative for operators.",
-    tools: ["Figma", "SQL", "Prompting", "Product Analytics"]
+      "An LLM-powered tracking-page experience that turns shipment events, ETA changes, and delay signals into a clear status narrative for customers.",
+    tools: ["Figma", "Cursor", "Gemini API", "Tableau"]
+  },
+  {
+    title: "Shipment Risk Reasons",
+    image: "/images/projects/shipment-risk-reasons.png",
+    secondaryImage: "/images/projects/risk-reasons-planning.png",
+    secondaryLabel: "Planning",
+    imageFit: "contain",
+    experience: "Uber Freight",
+    description:
+      "An AI shipment visibility feature that scrapes carrier comments & shipment data to provide customer-facing explanations for load risk level.",
+    tools: ["Nano Banana", "Cursor", "Python", "SQL"]
   },
   {
     title: "Job Posting Onboarding",
     image: "/images/projects/job-posting-onboarding.png",
-    experience: "Instawork Permanent Hiring",
+    experience: "Instawork",
     description:
-      "A guided job-posting flow designed to reduce friction for employers and make permanent hiring setup easier to complete.",
-    tools: ["Figma", "Lovable", "HubSpot", "A/B Testing"]
+      "An interactive calculator (gated content) page I ran LinkedIn ads to that helped recruiters understand hiring costs and estimate Instawork’s ROI, while collecting their lead info.",
+    tools: ["Replit", "Hubspot", "A/B Testing"]
   },
   {
     title: "Hiring Cost & ROI Calculator",
     image: "/images/projects/hiring-cost-calculator.png",
-    experience: "Instawork Permanent Hiring",
+    experience: "Instawork",
     description:
-      "A gated calculator experience built to help hiring teams estimate costs, see potential savings, and generate qualified product leads.",
-    tools: ["Cursor", "React", "HubSpot", "Analytics"]
+      "A redesigned job posting flow that let employers preview listings, see local worker supply, and skip payment and login steps to reduce onboarding friction.",
+    tools: ["Replit", "Hubspot", "Google Analytics"]
   }
 ];
 const projectNoteStyles = [
@@ -147,10 +147,10 @@ const projectNoteStyles = [
               ]}
               aria-hidden="true"
             />
-            <div class="relative z-[1] grid gap-0 lg:grid-cols-[minmax(0,1.72fr)_minmax(280px,0.48fr)]">
+            <div class="relative z-[1] grid gap-0 lg:grid-cols-[minmax(0,1.88fr)_minmax(250px,0.42fr)]">
               <div class="relative min-h-64 overflow-hidden border-b border-rule bg-paper lg:min-h-[390px] lg:border-b-0 lg:border-r">
                 {project.secondaryImage ? (
-                  <div class="flex h-full min-h-64 flex-col justify-center gap-5 p-5 sm:p-7 lg:min-h-[390px]">
+                  <div class="flex h-full min-h-64 flex-col justify-center gap-4 p-4 sm:p-6 lg:min-h-[390px]">
                     <div class="overflow-hidden border border-rule bg-white/80 p-2 shadow-[0_1px_0_rgba(23,23,23,0.06),0_12px_26px_rgba(23,23,23,0.08)] transition duration-300 ease-out group-hover:-translate-y-1">
                       <div class="mb-2 flex items-center gap-3">
                         <span class="text-[10px] uppercase tracking-[0.14em] text-muted">
@@ -163,12 +163,12 @@ const projectNoteStyles = [
                         alt={`${project.title} main preview`}
                         class:list={[
                           project.title === "Tracking Page AI Summary"
-                            ? "w-full object-contain object-center"
-                            : "mx-auto h-48 w-full object-contain sm:h-52"
+                            ? "h-44 w-full object-contain object-center sm:h-52"
+                            : "mx-auto h-44 w-full object-contain sm:h-52"
                         ]}
                       />
                     </div>
-                    <div class="ml-auto w-[66%] border border-rule/60 bg-white/45 p-2 opacity-75 shadow-[0_1px_0_rgba(23,23,23,0.03),0_8px_16px_rgba(23,23,23,0.04)] transition duration-300 ease-out group-hover:translate-y-1 group-hover:opacity-90 sm:w-[58%]">
+                    <div class="ml-auto w-[62%] border border-rule/60 bg-white/45 p-2 opacity-75 shadow-[0_1px_0_rgba(23,23,23,0.03),0_8px_16px_rgba(23,23,23,0.04)] transition duration-300 ease-out group-hover:translate-y-1 group-hover:opacity-90 sm:w-[54%]">
                       <div class="mb-2 flex items-center gap-3">
                         <span class="text-[10px] uppercase tracking-[0.14em] text-muted">
                           {project.secondaryLabel}
@@ -180,7 +180,7 @@ const projectNoteStyles = [
                         alt={`${project.title} supporting preview`}
                         class:list={[
                           "w-full object-cover object-top",
-                          project.title === "Tracking Page AI Summary" ? "aspect-[2.25/1]" : "aspect-[2.8/1]"
+                          project.title === "Tracking Page AI Summary" ? "aspect-[2.25/1]" : "aspect-[3/1]"
                         ]}
                       />
                     </div>
@@ -199,14 +199,14 @@ const projectNoteStyles = [
                 )}
                 <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(247,244,238,0)_62%,rgba(247,244,238,0.52))] opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
               </div>
-              <div class="relative flex min-h-64 items-center p-5 sm:p-6 lg:min-h-[390px] lg:pl-2 xl:pr-7">
-                <div class="relative w-full border border-rule bg-paper/90 p-4 shadow-[0_1px_0_rgba(23,23,23,0.08),0_14px_30px_rgba(23,23,23,0.08)] backdrop-blur-sm lg:-ml-2 xl:ml-0">
-                  <div class="mb-8 flex items-center justify-between gap-4">
-                    <span class="whitespace-nowrap rounded-md border border-rule bg-[#fbfaf6] px-2 py-1 text-[11px] uppercase tracking-[0.1em] text-muted shadow-[0_1px_0_rgba(23,23,23,0.08),0_6px_18px_rgba(23,23,23,0.04)]">
+              <div class="relative flex min-h-64 items-center justify-center p-5 sm:p-6 lg:min-h-[390px] lg:pl-2 xl:pr-7">
+                <div class="relative w-full max-w-[92%] border border-rule bg-paper/90 p-4 shadow-[0_1px_0_rgba(23,23,23,0.08),0_14px_30px_rgba(23,23,23,0.08)] backdrop-blur-sm lg:ml-0">
+                  <div class="mb-8 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 sm:gap-3">
+                    <span class="flex-none max-w-full whitespace-nowrap overflow-hidden text-ellipsis rounded-md border border-rule bg-[#fbfaf6] px-2 py-1 text-[11px] uppercase tracking-[0.08em] text-muted shadow-[0_1px_0_rgba(23,23,23,0.08),0_6px_18px_rgba(23,23,23,0.04)] sm:tracking-[0.1em]">
                       {project.experience}
                     </span>
-                    <span class="h-px flex-1 bg-rule" aria-hidden="true" />
-                    <span class="text-[11px] uppercase tracking-[0.14em] text-muted">
+                    <span class="h-px min-w-0 bg-rule/90" aria-hidden="true" />
+                    <span class="flex-none whitespace-nowrap pl-1 text-[11px] uppercase tracking-[0.14em] text-muted">
                       0{index + 1}
                     </span>
                   </div>
