@@ -15,8 +15,7 @@ const writing = (await getCollection("writing"))
     }
 
     return b.data.date.valueOf() - a.data.date.valueOf();
-  })
-  .slice(0, 3);
+  });
 const selectedProjects = projects.slice(0, 3);
 const projectNotes = [
   {
@@ -76,7 +75,11 @@ const projectNotes = [
     experience: "Instawork",
     description:
       "A redesigned job posting flow that let employers preview listings, see local worker supply, and skip payment and login steps to reduce onboarding friction.",
-    tools: ["Replit", "Hubspot", "A/B Testing"]
+    tools: ["Replit", "Hubspot", "A/B Testing"],
+    resources: [
+      { label: "Try Job Posting", href: "https://hiring-job-post-lsilveira2.replit.app/", primary: true },
+      { label: "Product Brief", href: "/documents/instawork-job-posting-product-brief.pdf", primary: false }
+    ]
   }
 ];
 const projectNoteStyles = [
@@ -245,7 +248,6 @@ const projectNoteStyles = [
       <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h2 class="text-2xl font-normal uppercase tracking-[0.12em] text-ink">More About Me</h2>
-          <p class="mt-4 max-w-2xl text-xl leading-8 text-ink">Click to Learn More</p>
         </div>
         <span class="flex items-center gap-3 text-sm uppercase tracking-[0.12em] text-muted transition-colors group-hover:text-ink">
           Open
