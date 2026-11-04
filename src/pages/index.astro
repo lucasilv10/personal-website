@@ -21,6 +21,13 @@ const projectNotes = [
   {
     title: "WHOOP Experiments",
     image: "/images/projects/whoop-experiments.png",
+    carouselImages: [
+      { src: "/images/projects/whoop-experiments.png", alt: "WHOOP Experiments overview" },
+      { src: "/images/projects/whoop-experiments-coach-suggestion.png", alt: "WHOOP Coach experiment suggestion" },
+      { src: "/images/projects/whoop-experiments-setup.png", alt: "WHOOP experiment setup" },
+      { src: "/images/projects/whoop-experiments-daily-logging.png", alt: "WHOOP experiment daily logging" },
+      { src: "/images/projects/whoop-experiments-results.png", alt: "WHOOP experiment results" }
+    ],
     imageFit: "contain",
     experience: "WHOOP",
     description:
@@ -145,6 +152,7 @@ const projectNoteStyles = [
           const hasBrief = project.resources?.some((resource) => resource.label === "Product Brief");
           const card = (
           <article
+            data-project-card
             class:list={[
               "relative overflow-hidden border border-rule shadow-[0_1px_0_rgba(23,23,23,0.08),0_18px_38px_rgba(23,23,23,0.08)] transition duration-300 ease-out before:pointer-events-none before:absolute before:inset-0 before:bg-[linear-gradient(135deg,rgba(255,255,255,0.72),rgba(255,255,255,0)_38%)] before:content-[''] group-hover:-translate-y-1 group-hover:border-ink group-hover:shadow-[0_1px_0_rgba(23,23,23,0.12),0_24px_48px_rgba(23,23,23,0.12)]",
               noteStyle.paper
@@ -152,18 +160,44 @@ const projectNoteStyles = [
           >
             <span
               class:list={[
-                "absolute left-8 top-0 z-[2] h-2 w-20 border-x border-b border-rule/70 opacity-85 shadow-[0_4px_10px_rgba(23,23,23,0.06)]",
+                "pointer-events-none absolute left-8 top-0 z-[2] h-2 w-20 border-x border-b border-rule/70 opacity-85 shadow-[0_4px_10px_rgba(23,23,23,0.06)]",
                 noteStyle.tape
               ]}
               aria-hidden="true"
             />
             <div class="project-layout relative z-[1] grid gap-0 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
               <div class="project-visual relative min-w-0 overflow-hidden border-b border-rule bg-paper lg:border-b-0 lg:border-r">
-                <img
-                  src={project.image}
-                  alt={`${project.title} preview`}
-                  class="absolute inset-0 h-full w-full object-contain object-center p-4 transition duration-300 ease-out group-hover:scale-[1.02] sm:p-6"
-                />
+                {project.carouselImages ? (
+                  <div class="whoop-carousel" data-whoop-carousel tabindex="0" role="region" aria-roledescription="carousel" aria-label="WHOOP Experiments screens">
+                    <div class="whoop-carousel-track" data-carousel-track>
+                      {project.carouselImages.map((slide, slideIndex) => (
+                        <div class="whoop-carousel-slide" data-carousel-slide aria-hidden={slideIndex === 0 ? "false" : "true"}>
+                          <img
+                            src={slide.src}
+                            alt={slide.alt}
+                            loading={slideIndex === 0 ? "eager" : "lazy"}
+                            fetchpriority={slideIndex === 0 ? "high" : "auto"}
+                            class:list={slideIndex === 0 ? ["project-thumbnail", "project-thumbnail-0", "absolute", "transition", "duration-300", "ease-out"] : ["whoop-carousel-image"]}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    <button class="whoop-carousel-arrow whoop-carousel-arrow--previous" type="button" data-carousel-previous aria-label="Previous WHOOP Experiments screen">‹</button>
+                    <button class="whoop-carousel-arrow whoop-carousel-arrow--next" type="button" data-carousel-next aria-label="Next WHOOP Experiments screen">›</button>
+                    <div class="whoop-carousel-pagination" aria-label="WHOOP Experiments screens">
+                      {project.carouselImages.map((slide, slideIndex) => (
+                        <button type="button" data-carousel-dot={slideIndex} aria-label={`Show screen ${slideIndex + 1}: ${slide.alt}`} aria-current={slideIndex === 0 ? "true" : "false"} />
+                      ))}
+                    </div>
+                    <p class="sr-only" aria-live="polite" data-carousel-status>Showing screen 1 of {project.carouselImages.length}: {project.carouselImages[0].alt}</p>
+                  </div>
+                ) : (
+                  <img
+                    src={project.image}
+                    alt={`${project.title} preview`}
+                    class:list={["project-thumbnail absolute transition duration-300 ease-out", `project-thumbnail-${index}`]}
+                  />
+                )}
                 <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(247,244,238,0)_62%,rgba(247,244,238,0.52))] opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
               </div>
               <div class="project-info relative flex min-w-0 items-center justify-center p-4 sm:p-5">
@@ -258,7 +292,115 @@ const projectNoteStyles = [
   </section>
 </Layout>
 
+<script>
+  document.querySelectorAll<HTMLElement>("[data-project-card]").forEach((card) => {
+    const firstLink = card.querySelector<HTMLAnchorElement>("a[href]");
+    if (!firstLink) return;
+
+    const primaryLink = document.createElement("a");
+    primaryLink.className = "project-card-primary";
+    for (const attribute of ["href", "target", "rel", "download", "referrerpolicy"]) {
+      const value = firstLink.getAttribute(attribute);
+      if (value !== null) primaryLink.setAttribute(attribute, value);
+    }
+    const name = card.querySelector("h3")?.textContent?.trim() ?? "Project";
+    const destination = firstLink.closest("h3")
+      ? "project page"
+      : firstLink.textContent?.trim();
+    primaryLink.setAttribute("aria-label", `${name}: ${destination}${firstLink.target === "_blank" ? " (opens in a new tab)" : ""}`);
+    card.prepend(primaryLink);
+  });
+
+  document.querySelectorAll<HTMLElement>("[data-whoop-carousel]").forEach((carousel) => {
+    const card = carousel.closest<HTMLElement>("[data-project-card]");
+    const cardLink = card?.querySelector<HTMLAnchorElement>(":scope > .project-card-primary");
+    const track = carousel.querySelector<HTMLElement>("[data-carousel-track]");
+    const slides = Array.from(carousel.querySelectorAll<HTMLElement>("[data-carousel-slide]"));
+    const previous = carousel.querySelector<HTMLButtonElement>("[data-carousel-previous]");
+    const next = carousel.querySelector<HTMLButtonElement>("[data-carousel-next]");
+    const dots = Array.from(carousel.querySelectorAll<HTMLButtonElement>("[data-carousel-dot]"));
+    const status = carousel.querySelector<HTMLElement>("[data-carousel-status]");
+    let activeSlide = 0;
+    let startX = 0;
+    let startY = 0;
+    let didSwipe = false;
+
+    const showSlide = (requestedSlide: number) => {
+      const nextSlide = Math.max(0, Math.min(requestedSlide, slides.length - 1));
+      activeSlide = nextSlide;
+      if (track) track.style.transform = `translateX(-${nextSlide * 100}%)`;
+      previous && (previous.disabled = nextSlide === 0);
+      next && (next.disabled = nextSlide === slides.length - 1);
+      slides.forEach((slide, index) => slide.setAttribute("aria-hidden", String(index !== nextSlide)));
+      dots.forEach((dot, index) => dot.setAttribute("aria-current", String(index === nextSlide)));
+      const image = slides[nextSlide]?.querySelector<HTMLImageElement>("img");
+      if (status && image) status.textContent = `Showing screen ${nextSlide + 1} of ${slides.length}: ${image.alt}`;
+    };
+
+    previous?.addEventListener("click", (event) => { event.stopPropagation(); showSlide(activeSlide - 1); });
+    next?.addEventListener("click", (event) => { event.stopPropagation(); showSlide(activeSlide + 1); });
+    dots.forEach((dot, index) => dot.addEventListener("click", (event) => { event.stopPropagation(); showSlide(index); }));
+
+    carousel.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") { event.preventDefault(); showSlide(activeSlide - 1); }
+      if (event.key === "ArrowRight") { event.preventDefault(); showSlide(activeSlide + 1); }
+      if (event.key === "Home") { event.preventDefault(); showSlide(0); }
+      if (event.key === "End") { event.preventDefault(); showSlide(slides.length - 1); }
+    });
+
+    carousel.addEventListener("pointerdown", (event) => {
+      startX = event.clientX;
+      startY = event.clientY;
+      didSwipe = false;
+    });
+    carousel.addEventListener("pointerup", (event) => {
+      const horizontalDistance = event.clientX - startX;
+      const verticalDistance = event.clientY - startY;
+      if (Math.abs(horizontalDistance) < 40 || Math.abs(horizontalDistance) <= Math.abs(verticalDistance)) return;
+      didSwipe = true;
+      showSlide(activeSlide + (horizontalDistance < 0 ? 1 : -1));
+    });
+    carousel.addEventListener("click", (event) => {
+      if (event.target instanceof Element && event.target.closest("button")) return;
+      if (!didSwipe) cardLink?.click();
+      didSwipe = false;
+    });
+
+    showSlide(0);
+  });
+</script>
+
 <style>
+  [data-project-card]:has(> .project-card-primary) { cursor: pointer; }
+  [data-project-card] :global(.project-card-primary) {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  [data-project-card]:has(> .project-card-primary:focus-visible) {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
+  /* Let the native card link receive background clicks without covering existing links. */
+  [data-project-card]:has(> .project-card-primary) .project-layout { pointer-events: none; }
+  [data-project-card] .project-layout a { pointer-events: auto; }
+  .whoop-carousel { position: relative; z-index: 1; width: 100%; height: 100%; overflow: hidden; pointer-events: auto; touch-action: pan-y; }
+  .whoop-carousel:focus-visible { outline: 2px solid currentColor; outline-offset: -4px; }
+  .whoop-carousel-track { display: flex; width: 100%; height: 100%; transition: transform 250ms ease-out; will-change: transform; }
+  .whoop-carousel-slide { position: relative; flex: 0 0 100%; width: 100%; height: 100%; overflow: hidden; }
+  .whoop-carousel-image { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+  .whoop-carousel-arrow { position: absolute; z-index: 2; top: 50%; display: grid; width: 32px; height: 32px; place-items: center; border: 1px solid rgba(38, 38, 38, 0.26); border-radius: 999px; color: #282828; background: rgba(252, 251, 247, 0.9); box-shadow: 0 2px 10px rgba(23, 23, 23, 0.12); opacity: 0; transform: translateY(-50%); transition: opacity 180ms ease-out, background-color 180ms ease-out; }
+  .whoop-carousel-arrow--previous { left: 12px; }
+  .whoop-carousel-arrow--next { right: 12px; }
+  .whoop-carousel:hover .whoop-carousel-arrow, .whoop-carousel:focus-within .whoop-carousel-arrow { opacity: 1; }
+  .whoop-carousel-arrow:hover:not(:disabled) { background: #fcfbf7; }
+  .whoop-carousel-arrow:disabled { cursor: default; opacity: 0.38; }
+  .whoop-carousel-arrow:focus-visible, .whoop-carousel-pagination button:focus-visible { outline: 2px solid #282828; outline-offset: 3px; }
+  .whoop-carousel-pagination { position: absolute; z-index: 2; bottom: 12px; left: 50%; display: flex; align-items: center; gap: 6px; padding: 5px 7px; border: 1px solid rgba(38, 38, 38, 0.12); border-radius: 999px; background: rgba(252, 251, 247, 0.78); transform: translateX(-50%); }
+  .whoop-carousel-pagination button { width: 6px; height: 6px; padding: 0; border: 0; border-radius: 999px; background: rgba(38, 38, 38, 0.34); transition: transform 180ms ease-out, background-color 180ms ease-out; }
+  .whoop-carousel-pagination button[aria-current="true"] { background: #282828; transform: scale(1.18); }
+  @media (hover: none), (pointer: coarse) { .whoop-carousel-arrow { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .whoop-carousel-track, .whoop-carousel-arrow, .whoop-carousel-pagination button { transition: none; } }
   .editorial-hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start; }
   .hero-portrait { width: 200px; max-width: 100%; }
   .hero-tagline { font-size: 34px; line-height: 1.12; text-wrap: balance; }
@@ -274,7 +416,33 @@ const projectNoteStyles = [
     .hero-portrait { width: 260px; }
     .hero-tagline { font-size: 40px; }
   }
-  .project-visual { height: 300px; }
+  .project-visual { height: 300px; container-type: size; }
+  .project-thumbnail {
+    --source-ratio: 0.843;
+    --product-width: 0.98;
+    --image-height: 113cqh;
+    --center-y: 56%;
+    left: 50%;
+    top: 50%;
+    width: min(calc((100cqw - 24px) / var(--product-width)), calc(var(--image-height) * var(--source-ratio)));
+    height: auto;
+    max-width: none;
+    transform: translate(-50%, calc(-1 * var(--center-y)));
+  }
+  .group:hover .project-thumbnail {
+    transform: translate(-50%, calc(-1 * var(--center-y))) scale(1.02);
+  }
+  .project-thumbnail-0 {
+    --source-ratio: 0.8003;
+    --product-width: 0.60;
+    --image-height: calc((100cqh - 24px) / 0.94);
+    --center-y: 49.5%;
+  }
+  .project-thumbnail-2 { --center-y: 55%; }
+  .project-thumbnail-3 {
+    --image-height: calc((100cqh - 24px) / 0.96);
+    --center-y: 51.5%;
+  }
   .project-info { min-height: 360px; }
   @media (min-width: 1024px) {
     .project-visual, .project-info { height: 500px; }
