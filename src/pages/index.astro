@@ -105,33 +105,27 @@ const projectNoteStyles = [
 >
   <section id="about-me" class="editorial-hero" data-nav-section="about" aria-label="About Luca">
     <div class="hero-portrait relative">
-      <div class="absolute -left-3 -top-3 h-full w-full border border-ink/80" aria-hidden="true" />
+      <div class="absolute -left-4 top-4 h-full w-full rounded-[3px] border border-rule" aria-hidden="true" />
       <img
         src="/images/luca-headshot.png"
         alt="Luca Silveira headshot"
-        class="relative block h-auto w-full"
+        class="relative block h-auto w-full rounded-[3px]"
       />
     </div>
     <div class="hero-copy min-w-0">
       <h1 class="text-[17px] font-medium uppercase tracking-[0.12em] text-ink">Luca Silveira</h1>
-      <h2 class="hero-tagline mt-3 font-semibold text-ink">
+      <h2 class="hero-tagline mt-3 font-serif font-normal text-ink">
         From selling boats in Miami to building products at Uber
       </h2>
       <p class="mt-4 text-[18px] leading-[1.5] text-ink">
         I'm a senior at Michigan Ross studying business. This summer, I worked in product at Uber Freight, building AI and tracking features across $20B in freight under management. Previously, I worked on growth at Instawork, a labor marketplace startup, and started a boat dealership in high school. I'm Brazilian-American, grew up in Miami, and played MLS NEXT soccer growing up.
       </p>
       <div class="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2">
-        <a href="https://drive.google.com/file/d/1mX4iaF9mPI-bvAcM6TBPuqD2AQYu9aj4/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-10 items-center gap-2 text-base font-medium text-ink underline decoration-rule underline-offset-4 hover:decoration-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">
-          <svg aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-            <path d="M7 3h7l4 4v14H7zM14 3v5h5M9.5 13h5M9.5 16h5" />
-          </svg>
-          Resume
+        <a href="https://drive.google.com/file/d/1mX4iaF9mPI-bvAcM6TBPuqD2AQYu9aj4/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-1 text-base font-medium text-ink no-underline hover:text-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">
+          <span class="underline underline-offset-4">Resume</span><span aria-hidden="true">↗</span>
         </a>
-        <a href="https://www.linkedin.com/in/luca-l-silveira/" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-10 items-center gap-2 text-base font-medium text-ink underline decoration-rule underline-offset-4 hover:decoration-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">
-          <svg aria-hidden="true" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M6.9 8.7H3.8v11.1h3.1V8.7ZM5.4 4.2a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6Zm14.8 9.5c0-3-1.6-5.2-4.3-5.2-1.4 0-2.5.8-3 1.6h-.1V8.7h-3v11.1h3.1v-5.9c0-1.6.9-2.7 2.2-2.7 1.2 0 2 1 2 2.7v5.9h3.1v-6.1Z" />
-          </svg>
-          LinkedIn
+        <a href="https://www.linkedin.com/in/luca-l-silveira/" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-1 text-base font-medium text-ink no-underline hover:text-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">
+          <span class="underline underline-offset-4">LinkedIn</span><span aria-hidden="true">↗</span>
         </a>
       </div>
     </div>
@@ -139,7 +133,7 @@ const projectNoteStyles = [
 
   <section id="projects" class="mt-9 border-t border-ink pb-12 pt-6" data-nav-section="projects">
     <div class="mb-6">
-      <h2 class="text-2xl font-normal uppercase tracking-[0.12em] text-ink">Projects</h2>
+      <h2 class="text-2xl font-normal uppercase tracking-[0.12em] text-ink">My Projects</h2>
     </div>
     <div class="space-y-8">
       {
@@ -265,17 +259,18 @@ const projectNoteStyles = [
 <style>
   .editorial-hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start; }
   .hero-portrait { width: 200px; max-width: 100%; }
-  .hero-tagline { font-size: 28px; line-height: 1.2; text-wrap: balance; }
+  .hero-tagline { font-size: 34px; line-height: 1.12; text-wrap: balance; }
   @media (min-width: 768px) {
     .editorial-hero { grid-template-columns: 220px minmax(0, 1fr); gap: 32px; }
     .hero-portrait { width: 220px; }
-    .hero-copy { max-width: 700px; }
-    .hero-tagline { font-size: 28px; }
+    .hero-copy { width: 100%; }
+    .hero-tagline { max-width: 700px; }
+    .hero-tagline { font-size: 36px; }
   }
   @media (min-width: 1024px) {
     .editorial-hero { grid-template-columns: 260px minmax(0, 1fr); gap: 44px; }
     .hero-portrait { width: 260px; }
-    .hero-tagline { font-size: 30px; }
+    .hero-tagline { font-size: 40px; }
   }
   .project-visual { height: 300px; }
   .project-info { min-height: 360px; }

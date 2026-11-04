@@ -13,13 +13,13 @@ const pageKey = currentPath.startsWith("/projects") ? "projects"
 
 <header class="site-container">
   <div class="site-header border-b border-rule">
-    <a href="/" aria-label="Luca Silveira home" class="text-xl font-semibold text-ink no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">LS.</a>
+    <a href="/" aria-label="Luca Silveira home" class="font-serif text-2xl font-semibold text-ink no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">LS.</a>
     <button type="button" class="menu-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="primary-links">
       <span aria-hidden="true" class="menu-symbol"><span></span><span></span><span></span></span>
     </button>
     <nav id="primary-links" class="primary-links" aria-label="Primary navigation">
       {navItems.map((item) => (
-        <a href={item.href} data-nav-link={item.navKey} aria-current={pageKey === item.navKey ? "page" : undefined} class:list={["nav-link text-sm text-muted no-underline hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4", pageKey === item.navKey && "is-active"]}>
+        <a href={item.href} data-nav-link={item.navKey} aria-current={pageKey === item.navKey ? "page" : undefined} class:list={["nav-link text-base text-muted no-underline hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4", pageKey === item.navKey && "is-active"]}>
           {item.label}
         </a>
       ))}
