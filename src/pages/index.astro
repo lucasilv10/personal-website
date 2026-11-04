@@ -266,16 +266,15 @@ const projectNoteStyles = [
   .editorial-hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start; }
   .hero-portrait { width: 200px; max-width: 100%; }
   .hero-tagline { font-size: 28px; line-height: 1.2; text-wrap: balance; }
-  @media (min-width: 640px) {
-    .editorial-hero { grid-template-columns: 200px minmax(0, 1fr); gap: 28px; }
-    .hero-portrait { width: 200px; }
-    .hero-copy { border-left: 1px solid #ded8cf; padding-left: 28px; }
+  @media (min-width: 768px) {
+    .editorial-hero { grid-template-columns: 220px minmax(0, 1fr); gap: 32px; }
+    .hero-portrait { width: 220px; }
+    .hero-copy { max-width: 700px; }
     .hero-tagline { font-size: 28px; }
   }
   @media (min-width: 1024px) {
-    .editorial-hero { grid-template-columns: 240px minmax(0, 1fr); gap: 32px; }
-    .hero-portrait { width: 240px; }
-    .hero-copy { padding-left: 32px; }
+    .editorial-hero { grid-template-columns: 260px minmax(0, 1fr); gap: 44px; }
+    .hero-portrait { width: 260px; }
     .hero-tagline { font-size: 30px; }
   }
   .project-visual { height: 300px; }

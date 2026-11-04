@@ -2,7 +2,6 @@
 import Analytics from "@vercel/analytics/astro";
 import Navigation from "./Navigation.astro";
 import Footer from "./Footer.astro";
-import LeftRailAccent from "./LeftRailAccent.astro";
 import "../styles/global.css";
 
 interface Props {
@@ -32,9 +31,8 @@ const pageTitle = title === "Luca Silveira" ? title : `${title} — Luca Silveir
     <title>{pageTitle}</title>
   </head>
   <body>
-    <LeftRailAccent />
     <Navigation />
-    <main class="relative z-[1] mx-auto w-full max-w-archive px-5 py-8 pr-28 sm:py-10 sm:pr-36 lg:pr-40">
+    <main class="site-container relative z-[1] py-8 sm:py-12">
       <slot />
     </main>
     <div class="relative z-[1]">

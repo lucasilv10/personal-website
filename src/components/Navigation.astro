@@ -3,126 +3,85 @@ const navItems = [
   { href: "/", label: "About", navKey: "about" },
   { href: "/#projects", label: "Projects", navKey: "projects" },
   { href: "/#writing", label: "Writing", navKey: "writing" },
-  { href: "/interview", label: "Personal" }
+  { href: "/interview", label: "Personal", navKey: "personal" }
 ];
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const pageKey = currentPath.startsWith("/projects") ? "projects"
+  : currentPath.startsWith("/writing") ? "writing"
+  : currentPath === "/interview" ? "personal" : "about";
 ---
 
-<nav
-  class="fixed right-5 top-8 z-10 flex w-24 flex-col items-stretch gap-3 text-sm text-muted sm:right-10 sm:top-10 sm:w-32 lg:right-14 lg:top-10 lg:w-56 xl:right-16"
-  aria-label="Primary navigation"
->
-  {
-    navItems.map((item) => {
-      const isActive =
-        item.href === "/"
-          ? currentPath === "/"
-          : currentPath === item.href;
-      const navKey = item.navKey;
-      return (
-        <a
-          href={item.href}
-          data-nav-link={navKey}
-          class:list={[
-            "group flex items-center justify-between gap-4 no-underline transition-all duration-300 ease-out hover:-translate-x-1 hover:text-ink",
-            isActive ? "-translate-x-2 text-ink" : ""
-          ]}
-        >
-          <span
-            data-nav-label={navKey}
-            class:list={[
-              "origin-right transition-all duration-300 ease-out group-hover:font-medium",
-              isActive ? "scale-[1.04] font-medium" : ""
-            ]}
-          >
-            {item.label}
-          </span>
-          <span
-            data-nav-line={navKey}
-            class:list={[
-              "h-px flex-1 origin-left transition-all duration-300 ease-out",
-              isActive ? "scale-x-110 bg-ink" : "scale-x-100 bg-rule group-hover:scale-x-105 group-hover:bg-ink"
-            ]}
-            aria-hidden="true"
-          />
+<header class="site-container">
+  <div class="site-header border-b border-rule">
+    <a href="/" aria-label="Luca Silveira home" class="text-xl font-semibold text-ink no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">LS.</a>
+    <button type="button" class="menu-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="primary-links">
+      <span aria-hidden="true" class="menu-symbol"><span></span><span></span><span></span></span>
+    </button>
+    <nav id="primary-links" class="primary-links" aria-label="Primary navigation">
+      {navItems.map((item) => (
+        <a href={item.href} data-nav-link={item.navKey} aria-current={pageKey === item.navKey ? "page" : undefined} class:list={["nav-link text-sm text-muted no-underline hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4", pageKey === item.navKey && "is-active"]}>
+          {item.label}
         </a>
-      );
-    })
+      ))}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; min-height: 68px; }
+  .menu-toggle { display: inline-flex; width: 44px; height: 44px; align-items: center; justify-content: center; color: #171717; }
+  .menu-toggle:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+  .menu-symbol { display: flex; width: 20px; flex-direction: column; gap: 5px; }
+  .menu-symbol span { height: 1px; width: 100%; background: currentColor; }
+  .primary-links { display: none; width: 100%; padding-block: 8px 16px; }
+  .primary-links.is-open { display: flex; flex-direction: column; }
+  .nav-link { display: flex; min-height: 44px; align-items: center; }
+  .nav-link.is-active { color: #171717; font-weight: 600; }
+  @media (min-width: 768px) {
+    .site-header { flex-wrap: nowrap; }
+    .menu-toggle { display: none; }
+    .primary-links, .primary-links.is-open { display: flex; width: auto; flex-direction: row; gap: 24px; padding: 0; }
   }
-</nav>
+  @media (min-width: 1024px) { .primary-links { gap: 32px; } }
+</style>
 
 <script>
-  const activateNav = (key: string) => {
-    document.querySelectorAll("[data-nav-link]").forEach((link) => {
-      const isActive = link.getAttribute("data-nav-link") === key;
-      link.classList.toggle("text-ink", isActive);
-      link.classList.toggle("text-muted", !isActive);
-      link.classList.toggle("-translate-x-2", isActive);
-    });
-
-    document.querySelectorAll("[data-nav-label]").forEach((label) => {
-      const isActive = label.getAttribute("data-nav-label") === key;
-      label.classList.toggle("scale-[1.04]", isActive);
-      label.classList.toggle("font-medium", isActive);
-    });
-
-    document.querySelectorAll("[data-nav-line]").forEach((line) => {
-      const isActive = line.getAttribute("data-nav-line") === key;
-      line.classList.toggle("bg-ink", isActive);
-      line.classList.toggle("bg-rule", !isActive);
-      line.classList.toggle("scale-x-110", isActive);
-      line.classList.toggle("scale-x-100", !isActive);
-    });
+  const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
+  const navigation = document.querySelector<HTMLElement>("#primary-links");
+  const setMenu = (open: boolean) => {
+    toggle?.setAttribute("aria-expanded", String(open));
+    toggle?.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+    navigation?.classList.toggle("is-open", open);
   };
-
-  let navScrollInitialized = false;
-
-  const initNavScroll = () => {
-    if (navScrollInitialized) return;
-
-    const sections = Array.from(document.querySelectorAll("[data-nav-section]"));
-    if (!sections.length) {
-      window.setTimeout(initNavScroll, 100);
-      return;
+  toggle?.addEventListener("click", () => setMenu(toggle.getAttribute("aria-expanded") !== "true"));
+  navigation?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setMenu(false)));
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && toggle?.getAttribute("aria-expanded") === "true") {
+      setMenu(false);
+      toggle.focus();
     }
+  });
+  document.addEventListener("click", (event) => {
+    if (event.target instanceof Element && !event.target.closest(".site-header")) setMenu(false);
+  });
+  window.matchMedia("(min-width: 768px)").addEventListener("change", () => setMenu(false));
 
-    navScrollInitialized = true;
-    let lastScrollY = -1;
-
+  if (window.location.pathname === "/") {
+    const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-nav-section]"));
     const updateActiveSection = () => {
-      const marker = window.innerHeight * 0.48;
-      const activeSection =
-        sections
-          .map((section) => ({
-            key: section.getAttribute("data-nav-section") || "about",
-            top: section.getBoundingClientRect().top
-          }))
-          .filter((section) => section.top <= marker)
-          .pop() || { key: "about" };
-
-      activateNav(activeSection.key);
+      const marker = Math.min(window.innerHeight * 0.3, 220);
+      const active = sections.filter((section) => section.getBoundingClientRect().top <= marker).pop();
+      const key = active?.dataset.navSection || "about";
+      document.querySelectorAll<HTMLElement>("[data-nav-link]").forEach((link) => {
+        const selected = link.dataset.navLink === key;
+        link.classList.toggle("is-active", selected);
+        if (selected) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
     };
-
     updateActiveSection();
     window.addEventListener("scroll", updateActiveSection, { passive: true });
     window.addEventListener("resize", updateActiveSection);
-
-    const syncOnScrollPositionChange = () => {
-      if (window.scrollY !== lastScrollY) {
-        lastScrollY = window.scrollY;
-        updateActiveSection();
-      }
-    };
-
-    window.setInterval(syncOnScrollPositionChange, 150);
-  };
-
-  if (window.location.pathname === "/") {
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", initNavScroll, { once: true });
-    } else {
-      initNavScroll();
-    }
-    window.addEventListener("load", initNavScroll, { once: true });
+    window.addEventListener("load", updateActiveSection, { once: true });
   }
 </script>
