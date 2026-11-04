@@ -28,7 +28,7 @@ const projectNotes = [
       "Designed and prototyped a WHOOP feature that helps members test personalized habits through seven-day challenges, Journal check-ins, and results recaps.",
     tools: ["Codex", "Figma Make", "React", "TypeScript"],
     resources: [
-      { label: "Watch Demo (4 min)", href: "https://www.youtube.com/watch?v=bmqujEWhcxI", primary: true },
+      { label: "Watch Demo", href: "https://www.youtube.com/watch?v=bmqujEWhcxI", primary: true },
       { label: "Product Brief", href: "/documents/whoop-experiments-product-brief.pdf", primary: false }
     ]
   },
@@ -54,7 +54,10 @@ const projectNotes = [
     experience: "Uber Freight",
     description:
       "An AI shipment visibility feature that scrapes carrier comments & shipment data to provide customer-facing explanations for load risk level.",
-    tools: ["Nano Banana", "Cursor", "Python", "SQL"]
+    tools: ["Nano Banana", "Cursor", "Python", "SQL"],
+    resources: [
+      { label: "Product Brief", href: "/documents/uber-risk-reasons-brief.pdf", primary: true }
+    ]
   },
   {
     title: "Hiring Cost & ROI Calculator",
@@ -68,7 +71,7 @@ const projectNotes = [
     ]
   },
   {
-    title: "Job Posting Onboarding",
+    title: "Job Posting",
     image: "/images/projects/job-posting-onboarding.png",
     experience: "Instawork",
     description:
@@ -100,59 +103,49 @@ const projectNoteStyles = [
   title="About"
   description="About Luca Silveira: product manager and business student interested in AI, logistics, marketplaces, global markets, and Brazil."
 >
-  <section class="border-b border-rule pb-8" data-nav-section="about">
-    <div class="mb-8 h-px w-full bg-ink" aria-hidden="true" />
-    <h1 class="max-w-4xl text-4xl font-normal leading-tight tracking-normal text-ink sm:text-5xl">
-      Luca Silveira
-    </h1>
-    <p class="mt-6 text-lg text-ink">Miami, FL</p>
-    <p class="mt-2 text-base text-muted">25.8648° N, 80.1806° W</p>
-    <div class="mt-6 h-px w-full bg-ink" aria-hidden="true" />
-    <div class="mt-10 grid gap-8 sm:grid-cols-[240px_1fr] sm:items-start lg:gap-12">
-      <div class="relative w-56 max-w-full sm:mt-3 sm:w-full">
-        <div class="absolute -left-3 -top-3 h-full w-full border border-ink/80" aria-hidden="true" />
-        <img
-          src="/images/luca-headshot.png"
-          alt="Luca Silveira headshot"
-          class="relative w-full border border-rule object-cover shadow-[0_12px_26px_rgba(23,23,23,0.08)]"
-        />
-      </div>
-      <div class="max-w-3xl border-t border-rule pt-5 sm:-mt-2 sm:border-t-0 sm:pt-0">
-        <p class="leading-8 text-ink">
-          Hi, I’m Luca. I’m a senior at the University of Michigan studying business at
-          Ross. This summer, I’m a Product Management Intern at Uber Freight, where I’m
-          building AI features and tracking tools across $20B in freight under management.
-          Before that, I worked on growth at Instawork (a labor marketplace startup) and
-          spent a summer in Rio de Janeiro as an analyst at Fuse Capital (a crypto venture
-          fund).
-        </p>
-        <p class="mt-6 leading-8 text-ink">
-          I’m Brazilian-American and grew up in Miami, where I became passionate about
-          entrepreneurship, soccer, and the outdoors. In high school, I built a boat
-          dealership business and a real estate aerial photography operation while
-          competing as a midfielder in MLS Next and Florida’s Olympic Development
-          Program. Since coming to Michigan, I’ve continued playing club soccer and have
-          enjoyed running, traveling, and exploring new food spots.
-        </p>
+  <section id="about-me" class="editorial-hero" data-nav-section="about" aria-label="About Luca">
+    <div class="hero-portrait relative">
+      <div class="absolute -left-3 -top-3 h-full w-full border border-ink/80" aria-hidden="true" />
+      <img
+        src="/images/luca-headshot.png"
+        alt="Luca Silveira headshot"
+        class="relative block h-auto w-full"
+      />
+    </div>
+    <div class="hero-copy min-w-0">
+      <h1 class="text-[17px] font-medium uppercase tracking-[0.12em] text-ink">Luca Silveira</h1>
+      <h2 class="hero-tagline mt-3 font-semibold text-ink">
+        From selling boats in Miami to building products at Uber
+      </h2>
+      <p class="mt-4 text-[18px] leading-[1.5] text-ink">
+        I'm a senior at Michigan Ross studying business. This summer, I worked in product at Uber Freight, building AI and tracking features across $20B in freight under management. Previously, I worked on growth at Instawork, a labor marketplace startup, and started a boat dealership in high school. I'm Brazilian-American, grew up in Miami, and played MLS NEXT soccer growing up.
+      </p>
+      <div class="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2">
+        <a href="https://drive.google.com/file/d/1mX4iaF9mPI-bvAcM6TBPuqD2AQYu9aj4/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-10 items-center gap-2 text-base font-medium text-ink underline decoration-rule underline-offset-4 hover:decoration-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">
+          <svg aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <path d="M7 3h7l4 4v14H7zM14 3v5h5M9.5 13h5M9.5 16h5" />
+          </svg>
+          Resume
+        </a>
+        <a href="https://www.linkedin.com/in/luca-l-silveira/" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-10 items-center gap-2 text-base font-medium text-ink underline decoration-rule underline-offset-4 hover:decoration-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">
+          <svg aria-hidden="true" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M6.9 8.7H3.8v11.1h3.1V8.7ZM5.4 4.2a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6Zm14.8 9.5c0-3-1.6-5.2-4.3-5.2-1.4 0-2.5.8-3 1.6h-.1V8.7h-3v11.1h3.1v-5.9c0-1.6.9-2.7 2.2-2.7 1.2 0 2 1 2 2.7v5.9h3.1v-6.1Z" />
+          </svg>
+          LinkedIn
+        </a>
       </div>
     </div>
   </section>
 
-  <section class="border-b border-rule pb-12 pt-8">
-    <div class="mb-1">
-      <h2 class="text-2xl font-normal uppercase tracking-[0.12em] text-ink">Experience</h2>
-    </div>
-    {selectedProjects.map((project) => <ProjectCard {...project} />)}
-  </section>
-
-  <section id="projects" class="py-12" data-nav-section="projects">
-    <div class="mb-8">
+  <section id="projects" class="mt-9 border-t border-ink pb-12 pt-6" data-nav-section="projects">
+    <div class="mb-6">
       <h2 class="text-2xl font-normal uppercase tracking-[0.12em] text-ink">Projects</h2>
     </div>
-    <div class="space-y-7">
+    <div class="space-y-8">
       {
         projectNotes.map((project, index) => {
           const noteStyle = projectNoteStyles[index % projectNoteStyles.length];
+          const hasBrief = project.resources?.some((resource) => resource.label === "Product Brief");
           const card = (
           <article
             class:list={[
@@ -194,10 +187,22 @@ const projectNoteStyles = [
                   </h3>
                   <p class="mt-4 text-sm leading-6 text-muted">{project.description}</p>
                   {project.resources && (
-                    <div class="mt-5 flex flex-col items-start gap-3 text-sm text-ink">
+                    <div class:list={["mt-5 flex flex-col items-start text-sm text-ink", hasBrief ? "gap-2.5" : "gap-3"]}>
                       {project.resources.map((resource) => (
-                        <a href={resource.href} target="_blank" rel="noopener noreferrer" class:list={["focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4", resource.primary ? "inline-flex max-w-full items-center gap-2 rounded-md bg-ink px-3 py-2.5 text-sm leading-5 text-paper no-underline shadow-sm transition-opacity hover:opacity-80" : "text-xs text-muted underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-ink"]}>
-                          {resource.primary && <span aria-hidden="true" class="text-[10px]">{resource.label.startsWith("Watch Demo") ? "▶" : "↗"}</span>}
+                        <a href={resource.href} target="_blank" rel="noopener noreferrer" class:list={[
+                          "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4",
+                          hasBrief
+                            ? "inline-flex h-11 w-44 max-w-full items-center justify-center gap-2 rounded-[4px] border px-3 text-sm leading-5 no-underline transition-colors"
+                            : "inline-flex max-w-full items-center gap-2 rounded-md bg-ink px-3 py-2.5 text-sm leading-5 text-paper no-underline shadow-sm transition-opacity hover:opacity-80",
+                          hasBrief && (resource.label === "Product Brief"
+                            ? "border-rule bg-transparent text-ink hover:border-muted"
+                            : "border-ink bg-ink text-white hover:bg-ink/80")
+                        ]}>
+                          {resource.label === "Product Brief" ? (
+                            <svg aria-hidden="true" class="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                              <path d="M7 3h7l4 4v14H7zM14 3v5h5M9.5 13h5M9.5 16h5" />
+                            </svg>
+                          ) : <span aria-hidden="true" class="text-[10px]">{resource.label.startsWith("Watch Demo") ? "▶" : "↗"}</span>}
                           {resource.label}
                         </a>
                       ))}
@@ -214,11 +219,7 @@ const projectNoteStyles = [
           </article>
           );
 
-          return project.slug && !project.resources ? (
-            <a href={project.slug} class="group block no-underline">
-              {card}
-            </a>
-          ) : (
+          return (
             <div class="group">
               {card}
             </div>
@@ -228,6 +229,13 @@ const projectNoteStyles = [
     </div>
   </section>
 
+  <section class="border-b border-rule pb-12 pt-12">
+    <div class="mb-6">
+      <h2 class="text-2xl font-normal uppercase tracking-[0.12em] text-ink">Experience</h2>
+    </div>
+    {selectedProjects.map((project) => <ProjectCard {...project} />)}
+  </section>
+
   <section id="writing" class="border-t border-rule py-12" data-nav-section="writing">
     <div class="mb-6">
       <h2 class="text-2xl font-normal uppercase tracking-[0.12em] text-ink">Writing</h2>
@@ -235,14 +243,14 @@ const projectNoteStyles = [
     <ArticleList articles={writing} />
   </section>
 
-  <section class="border-t border-rule py-10">
+  <section class="border-t border-rule py-12">
     <a
       href="/interview"
       class="group block border border-rule bg-[#fbfaf6]/70 px-5 py-6 no-underline shadow-[0_1px_0_rgba(23,23,23,0.06)] transition duration-200 ease-out hover:-translate-y-1 hover:border-ink hover:bg-[#fcfbf7] hover:shadow-[0_12px_28px_rgba(23,23,23,0.08)]"
     >
       <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h2 class="text-2xl font-normal uppercase tracking-[0.12em] text-ink">Interview</h2>
+          <h2 class="text-2xl font-normal uppercase tracking-[0.12em] text-ink">More About Me</h2>
           <p class="mt-4 max-w-2xl text-xl leading-8 text-ink">Click to Learn More</p>
         </div>
         <span class="flex items-center gap-3 text-sm uppercase tracking-[0.12em] text-muted transition-colors group-hover:text-ink">
@@ -255,6 +263,21 @@ const projectNoteStyles = [
 </Layout>
 
 <style>
+  .editorial-hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start; }
+  .hero-portrait { width: 200px; max-width: 100%; }
+  .hero-tagline { font-size: 28px; line-height: 1.2; text-wrap: balance; }
+  @media (min-width: 640px) {
+    .editorial-hero { grid-template-columns: 200px minmax(0, 1fr); gap: 28px; }
+    .hero-portrait { width: 200px; }
+    .hero-copy { border-left: 1px solid #ded8cf; padding-left: 28px; }
+    .hero-tagline { font-size: 28px; }
+  }
+  @media (min-width: 1024px) {
+    .editorial-hero { grid-template-columns: 240px minmax(0, 1fr); gap: 32px; }
+    .hero-portrait { width: 240px; }
+    .hero-copy { padding-left: 32px; }
+    .hero-tagline { font-size: 30px; }
+  }
   .project-visual { height: 300px; }
   .project-info { min-height: 360px; }
   @media (min-width: 1024px) {

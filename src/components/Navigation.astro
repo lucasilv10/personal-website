@@ -3,18 +3,13 @@ const navItems = [
   { href: "/", label: "About", navKey: "about" },
   { href: "/#projects", label: "Projects", navKey: "projects" },
   { href: "/#writing", label: "Writing", navKey: "writing" },
-  { href: "/interview", label: "Interview" },
-  {
-    href: "https://www.linkedin.com/in/luca-l-silveira/",
-    label: "LinkedIn",
-    external: true
-  }
+  { href: "/interview", label: "Personal" }
 ];
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
 
 <nav
-  class="fixed right-5 top-6 z-10 flex w-40 flex-col items-stretch gap-3 text-sm text-muted sm:right-10 sm:top-8 sm:w-48 lg:right-14 lg:top-10 lg:w-56 xl:right-16"
+  class="fixed right-5 top-8 z-10 flex w-24 flex-col items-stretch gap-3 text-sm text-muted sm:right-10 sm:top-10 sm:w-32 lg:right-14 lg:top-10 lg:w-56 xl:right-16"
   aria-label="Primary navigation"
 >
   {
@@ -22,13 +17,11 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
       const isActive =
         item.href === "/"
           ? currentPath === "/"
-          : !item.external && currentPath === item.href;
+          : currentPath === item.href;
       const navKey = item.navKey;
       return (
         <a
           href={item.href}
-          target={item.external ? "_blank" : undefined}
-          rel={item.external ? "noreferrer" : undefined}
           data-nav-link={navKey}
           class:list={[
             "group flex items-center justify-between gap-4 no-underline transition-all duration-300 ease-out hover:-translate-x-1 hover:text-ink",
