@@ -1,0 +1,181 @@
+---
+import Layout from "../../components/Layout.astro";
+
+const overview = [
+  "Uber Freight’s tracking experience could show that a shipment is Low, Medium, or High Risk, but customers could not understand what is driving that risk.",
+  "I worked on defining a risk reason system that explained the primary reason a shipment is at risk, such as missed appointment, late ETA, stale tracking, detention, appointment reschedule, carrier update pending, or coverage issue.",
+  "The project evolved from a simple reason-label feature into a broader framework of 20+ supported reasons for how multiple shipment signals could roll up into a parent customer-facing risk level.",
+  "I explored how risk should be represented across ETA, appointment status, shipment stage, stop-level progress, tracking freshness, carrier behavior, facility behavior, and historical performance.",
+  "The goal was to help customers quickly understand not only that a shipment is at risk, but why it is at risk and what Uber Freight is doing next. This work created a foundation for clearer tracking portal messaging, risk explanation, and future AI-generated shipment summaries."
+];
+
+const metrics = [
+  {
+    label: "Projected savings",
+    value: "$450K",
+    detail:
+      "Built the product case for Shipment Risk Reasons as a way to reduce avoidable operator tracking work, representing a projected $450K in yearly savings."
+  },
+  {
+    label: "Coverage target",
+    value: "60%",
+    detail:
+      "Defined an MVP taxonomy designed to explain approximately 60% of Medium and High Risk shipments using reliable, customer-safe shipment signals."
+  },
+  {
+    label: "Tracking outreach",
+    value: "Down",
+    detail:
+      "Designed risk explanations to reduce customer follow-up by clarifying why a shipment is at risk, which stop is affected, and what happens next."
+  }
+];
+
+const team = [
+  {
+    group: "Engineering",
+    detail:
+      "Trigger logic, shipment stage detection, reason output structure, API requirements, fallback handling, and trustworthy data sources."
+  },
+  {
+    group: "Design",
+    detail:
+      "Banner placement, summary card hierarchy, route timeline integration, and top-of-page shipment story."
+  },
+  {
+    group: "Product managers",
+    detail:
+      "MVP scope, reason prioritization, customer-facing requirements, and alignment with the broader tracking portal strategy."
+  },
+  {
+    group: "Data Science",
+    detail:
+      "Weighting, validation, and how child signals could roll up into a new parent risk level."
+  },
+  {
+    group: "Operations stakeholders",
+    detail:
+      "Real shipment examples, operator comments, and delay scenarios to identify frequent and explainable reasons."
+  }
+];
+
+const tools = ["Cursor", "Figma", "SQL", "PRD"];
+---
+
+<Layout
+  title="Shipment Risk Reasons"
+  description="Uber Freight project page for a shipment risk reason service."
+>
+  <a href="/#projects" class="fixed left-8 top-40 z-10 hidden -translate-x-1/2 -rotate-90 items-center gap-3 text-sm text-muted no-underline transition-colors hover:text-ink min-[1110px]:inline-flex">
+    <span class="h-px w-10 bg-rule" aria-hidden="true" />
+    Back to projects
+  </a>
+  <a href="/#projects" class="mb-5 inline-flex items-center gap-3 text-sm text-muted no-underline transition-colors hover:text-ink min-[1110px]:hidden">
+    <span class="h-px w-10 bg-rule" aria-hidden="true" />
+    Back to projects
+  </a>
+
+  <header class="border-b border-ink pb-5">
+    <h1 class="max-w-4xl text-4xl font-normal leading-tight text-ink sm:text-5xl">
+      Shipment Risk Reasons
+    </h1>
+    <p class="mt-4 max-w-3xl text-lg leading-7 text-ink">
+      Launched a shipment risk reason service feature to explain why a load is at risk and make delivery issues more actionable.
+    </p>
+  </header>
+
+  <section class="grid gap-6 py-6 lg:grid-cols-[minmax(0,0.43fr)_minmax(0,0.57fr)] lg:items-start">
+    <div class="border-y border-rule py-4">
+      <h2 class="mb-3 text-sm font-medium uppercase tracking-[0.16em] text-muted">Overview</h2>
+      <ol class="divide-y divide-rule">
+        {overview.map((paragraph, index) => (
+          <li class="grid gap-3 py-3 text-sm leading-6 text-muted sm:grid-cols-[2rem_1fr]">
+            <span class="text-[11px] uppercase tracking-[0.14em] text-ink">0{index + 1}</span>
+            <span>{paragraph}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <div class="grid gap-3 border border-rule bg-[#fbfaf6]/70 p-3 shadow-[0_1px_0_rgba(23,23,23,0.08),0_18px_40px_rgba(23,23,23,0.08)]">
+      <figure class="border border-rule bg-paper p-3">
+        <div class="mb-3 flex items-center gap-3">
+          <span class="text-[11px] uppercase tracking-[0.16em] text-muted">Risk UI</span>
+          <span class="h-px flex-1 bg-rule" aria-hidden="true" />
+        </div>
+        <img
+          src="/images/projects/shipment-risk-reasons.png"
+          alt="Shipment Risk Reasons preview"
+          class="mx-auto w-full object-contain"
+        />
+      </figure>
+      <figure class="ml-auto w-full border border-rule bg-paper/70 p-2 opacity-85 sm:w-[62%]">
+        <p class="mb-2 text-[10px] uppercase tracking-[0.16em] text-muted">REASON TAXONOMY</p>
+        <img
+          src="/images/projects/risk-reasons-planning.png"
+          alt="Shipment Risk Reasons planning sheet preview"
+          class="aspect-[2.7/1] w-full object-cover object-top"
+        />
+      </figure>
+    </div>
+  </section>
+
+  <section class="grid gap-4 border-y border-rule py-5 sm:grid-cols-3">
+    {metrics.map((metric) => (
+      <article class="border-l border-rule pl-4">
+        <p class="text-[11px] uppercase tracking-[0.16em] text-muted">{metric.label}</p>
+        <p class="mt-3 text-3xl font-normal text-ink">{metric.value}</p>
+        <p class="mt-3 text-sm leading-6 text-muted">{metric.detail}</p>
+      </article>
+    ))}
+  </section>
+
+  <div class="grid gap-10 py-8 lg:grid-cols-[minmax(0,0.72fr)_minmax(260px,0.28fr)]">
+    <main class="space-y-10">
+      <section class="grid gap-5 sm:grid-cols-[140px_1fr]">
+        <h2 class="text-sm font-medium uppercase tracking-[0.16em] text-muted">My role</h2>
+        <div class="space-y-4 leading-8 text-ink">
+          <p>
+            I led product discovery, taxonomy development, trigger logic definition, prioritization, and PRD framing for the Shipment Risk Reasons experience.
+          </p>
+          <p>
+            I synthesized feedback from PMs, engineers, designers, data scientists, and operators into an MVP framework with P0/P1 reasons, customer-facing copy, fallback states, and open questions for validation.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-sm font-medium uppercase tracking-[0.16em] text-muted">Team partners</h2>
+        <div class="grid gap-3 sm:grid-cols-2">
+          {team.map((partner) => (
+            <article class="border border-rule bg-[#fbfaf6]/60 p-4">
+              <h3 class="text-base font-normal text-ink">{partner.group}</h3>
+              <p class="mt-3 text-sm leading-6 text-muted">{partner.detail}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+    </main>
+
+    <aside class="space-y-5">
+      <section class="border border-rule bg-[#fbfaf6]/70 p-4">
+        <h2 class="text-sm font-medium uppercase tracking-[0.16em] text-muted">Tools</h2>
+        <div class="mt-4 flex flex-wrap gap-2">
+          {tools.map((tool) => (
+            <span class="rounded-md border border-rule/70 bg-paper/70 px-2.5 py-1 text-xs text-ink">
+              {tool}
+            </span>
+          ))}
+        </div>
+      </section>
+      <section class="border-t border-rule pt-5">
+        <h2 class="text-sm font-medium uppercase tracking-[0.16em] text-muted">Product note</h2>
+        <p class="mt-4 text-sm leading-7 text-muted">
+          A key insight from this project was that customers do not just need a risk score, they need a shipment story.
+        </p>
+        <p class="mt-4 text-sm leading-7 text-muted">
+          The product challenge was to identify the most relevant primary risk reason, preserve lower-priority signals as supporting context, and display the result in a way that was concise, trustworthy, and accurate.
+        </p>
+      </section>
+    </aside>
+  </div>
+</Layout>

@@ -1,0 +1,179 @@
+---
+import Layout from "../../components/Layout.astro";
+
+const overview = [
+  "Uber Freight customers use the Public Tracking Portal to understand where their shipment is, when it will arrive, and whether there is a delivery risk. That information could be fragmented across ETA, risk level, map, route details, shipment events, and operator updates.",
+  "I worked on an AI Summary concept that consolidates route, banner logic, check calls, and comments into a one-sentence, customer-facing shipment update. The goal was to reduce customer confusion and make the portal more self-serve by clearly answering: what is happening, why it matters, and what happens next.",
+  "The AI Summary was scoped as a fundamental piece for Uber Freight’s roadmap for customer load transparency and managing escalations efficiently. The long term vision includes syncing this tracking portal summary to the inboxes of those operators handling escalations."
+];
+
+const metrics = [
+  {
+    label: "Validation plan",
+    value: "110 loads",
+    detail:
+      "Proposed testing the AI Summary across real managed-execution shipments to validate accuracy, edge cases, and grounding in structured data."
+  },
+  {
+    label: "States supported",
+    value: "6+",
+    detail:
+      "Defined behavior for On Track, Potential Delay, Appointment Missed, Stale Tracking, Awaiting Carrier Update, Facility Delay/Detention, and Delivered."
+  },
+  {
+    label: "Customer outreach",
+    value: "Lower",
+    detail:
+      "Designed the summary to reduce avoidable 'where is my shipment?' inquiries by consolidating ETA, location, risk, and next-step context."
+  }
+];
+
+const team = [
+  {
+    group: "Engineering",
+    detail:
+      "Backend feasibility, structured payload design, AI endpoint behavior, caching logic, feature flags, timeout handling, and deterministic fallbacks."
+  },
+  {
+    group: "Product",
+    detail:
+      "Opportunity framing, AI Summary scope, customer-facing goals, and MVP requirements."
+  },
+  {
+    group: "Design",
+    detail:
+      "Placement, hierarchy, and how the summary fit with the rest of the tracking portal."
+  },
+  {
+    group: "Operations / customer-facing teams",
+    detail:
+      "Shipment investigation workflows and operator feedback to shape useful summary language."
+  }
+];
+
+const tools = ["AI Workbench", "LLM prompt design", "Figma", "PRD"];
+---
+
+<Layout
+  title="Tracking Page AI Summary"
+  description="Uber Freight project page for an AI-powered tracking summary experience."
+>
+  <a href="/#projects" class="fixed left-8 top-40 z-10 hidden -translate-x-1/2 -rotate-90 items-center gap-3 text-sm text-muted no-underline transition-colors hover:text-ink min-[1110px]:inline-flex">
+    <span class="h-px w-10 bg-rule" aria-hidden="true" />
+    Back to projects
+  </a>
+  <a href="/#projects" class="mb-5 inline-flex items-center gap-3 text-sm text-muted no-underline transition-colors hover:text-ink min-[1110px]:hidden">
+    <span class="h-px w-10 bg-rule" aria-hidden="true" />
+    Back to projects
+  </a>
+
+  <header class="border-b border-ink pb-5">
+    <h1 class="max-w-4xl text-4xl font-normal leading-tight text-ink sm:text-5xl">
+      Tracking Page AI Summary
+    </h1>
+    <p class="mt-4 max-w-3xl text-lg leading-7 text-ink">
+      Designed an AI tracking summary feature to help customers quickly understand shipment status, ETA, risk, and next steps.
+    </p>
+  </header>
+
+  <section class="grid gap-6 py-6 lg:grid-cols-[minmax(0,0.43fr)_minmax(0,0.57fr)] lg:items-start">
+    <div class="border-y border-rule py-4">
+      <h2 class="mb-3 text-sm font-medium uppercase tracking-[0.16em] text-muted">Overview</h2>
+      <ol class="divide-y divide-rule">
+        {overview.map((paragraph, index) => (
+          <li class="grid gap-3 py-3 text-sm leading-6 text-muted sm:grid-cols-[2rem_1fr]">
+            <span class="text-[11px] uppercase tracking-[0.14em] text-ink">0{index + 1}</span>
+            <span>{paragraph}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <div class="border border-rule bg-[#fbfaf6]/70 p-3 shadow-[0_1px_0_rgba(23,23,23,0.08),0_18px_40px_rgba(23,23,23,0.08)]">
+      <figure class="border border-rule bg-paper p-3">
+        <div class="mb-3 flex items-center gap-3">
+          <span class="text-[11px] uppercase tracking-[0.16em] text-muted">AI Summary Card</span>
+          <span class="h-px flex-1 bg-rule" aria-hidden="true" />
+        </div>
+        <img
+          src="/images/projects/tracking-page-ai-summary.png"
+          alt="Tracking Page AI Summary preview"
+          class="mx-auto w-full object-contain"
+        />
+      </figure>
+      <div class="mt-3 flex items-end justify-between gap-4">
+        <p class="max-w-sm text-xs leading-5 text-muted">
+          Many operational signals collapsed into one customer-facing update.
+        </p>
+        <figure class="w-44 border border-rule bg-paper/80 p-2 opacity-85 sm:w-56">
+          <p class="mb-2 text-[10px] uppercase tracking-[0.16em] text-muted">Before</p>
+          <img
+            src="/images/projects/tracking-page-before.png"
+            alt="Previous tracking portal preview"
+            class="aspect-[2.3/1] w-full object-cover object-top"
+          />
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid gap-4 border-y border-rule py-5 sm:grid-cols-3">
+    {metrics.map((metric) => (
+      <article class="border-l border-rule pl-4">
+        <p class="text-[11px] uppercase tracking-[0.16em] text-muted">{metric.label}</p>
+        <p class="mt-3 text-3xl font-normal text-ink">{metric.value}</p>
+        <p class="mt-3 text-sm leading-6 text-muted">{metric.detail}</p>
+      </article>
+    ))}
+  </section>
+
+  <div class="grid gap-10 py-8 lg:grid-cols-[minmax(0,0.72fr)_minmax(260px,0.28fr)]">
+    <main class="space-y-10">
+      <section class="grid gap-5 sm:grid-cols-[140px_1fr]">
+        <h2 class="text-sm font-medium uppercase tracking-[0.16em] text-muted">My role</h2>
+        <div class="space-y-4 leading-8 text-ink">
+          <p>
+            I led customer and ops discovery, prompt requirements with Eng, and early experience design for the AI Summary concept.
+          </p>
+          <p>
+            I partnered with product, engineering, design, and operations stakeholders to define the summary’s input data, output structure across shipment scenarios, and validation against 100+ loads.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-sm font-medium uppercase tracking-[0.16em] text-muted">Team partners</h2>
+        <div class="grid gap-3 sm:grid-cols-2">
+          {team.map((partner) => (
+            <article class="border border-rule bg-[#fbfaf6]/60 p-4">
+              <h3 class="text-base font-normal text-ink">{partner.group}</h3>
+              <p class="mt-3 text-sm leading-6 text-muted">{partner.detail}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+    </main>
+
+    <aside class="space-y-5">
+      <section class="border border-rule bg-[#fbfaf6]/70 p-4">
+        <h2 class="text-sm font-medium uppercase tracking-[0.16em] text-muted">Tools</h2>
+        <div class="mt-4 flex flex-wrap gap-2">
+          {tools.map((tool) => (
+            <span class="rounded-md border border-rule/70 bg-paper/70 px-2.5 py-1 text-xs text-ink">
+              {tool}
+            </span>
+          ))}
+        </div>
+      </section>
+      <section class="border-t border-rule pt-5">
+        <h2 class="text-sm font-medium uppercase tracking-[0.16em] text-muted">Product note</h2>
+        <p class="mt-4 text-sm leading-7 text-muted">
+          This project was not simply about adding AI to a tracking page. The core product challenge was deciding how AI should safely operate in a high-trust logistics workflow.
+        </p>
+        <p class="mt-4 text-sm leading-7 text-muted">
+          I also recommended a top-of-page summary card with key metrics and organized granular shipment details into clickable tabs.
+        </p>
+      </section>
+    </aside>
+  </div>
+</Layout>

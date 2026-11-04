@@ -20,26 +20,52 @@ const writing = (await getCollection("writing"))
 const selectedProjects = projects.slice(0, 3);
 const projectNotes = [
   {
+    title: "WHOOP Experiments",
+    image: "/images/projects/whoop-experiments.png",
+    imageFit: "contain",
+    experience: "WHOOP",
+    description:
+      "Designed and prototyped a WHOOP feature that helps members test personalized habits through seven-day challenges, Journal check-ins, and results recaps.",
+    tools: ["Codex", "Figma Make", "React", "TypeScript"],
+    resources: [
+      { label: "Watch Demo (4 min)", href: "https://www.youtube.com/watch?v=bmqujEWhcxI", primary: true },
+      { label: "Product Brief", href: "/documents/whoop-experiments-product-brief.pdf", primary: false }
+    ]
+  },
+  {
     title: "Tracking Page AI Summary",
-    image: "/images/projects/tracking-page-ai-summary.png",
-    secondaryImage: "/images/projects/tracking-page-before.png",
-    secondaryLabel: "Before",
+    slug: "/projects/tracking-page-ai-summary",
+    image: "/images/projects/tracking-page-dashboard.png",
     imageFit: "contain",
     experience: "Uber Freight",
     description:
       "An LLM-powered tracking-page experience that turns shipment events, ETA changes, and delay signals into a clear status narrative for customers.",
-    tools: ["Figma", "Cursor", "Gemini API", "Tableau"]
+    tools: ["Figma", "Cursor", "Gemini API", "Tableau"],
+    resources: [
+      { label: "Watch Demo (2 min)", href: "https://www.youtube.com/watch?v=S9oXYqEwpTY&feature=youtu.be", primary: true },
+      { label: "Product Brief", href: "/documents/ptp-ai-summary-prd.pdf", primary: false }
+    ]
   },
   {
     title: "Shipment Risk Reasons",
-    image: "/images/projects/shipment-risk-reasons.png",
-    secondaryImage: "/images/projects/risk-reasons-planning.png",
-    secondaryLabel: "Planning",
+    slug: "/projects/shipment-risk-reasons",
+    image: "/images/projects/shipment-risk-dashboard.png",
     imageFit: "contain",
     experience: "Uber Freight",
     description:
       "An AI shipment visibility feature that scrapes carrier comments & shipment data to provide customer-facing explanations for load risk level.",
     tools: ["Nano Banana", "Cursor", "Python", "SQL"]
+  },
+  {
+    title: "Hiring Cost & ROI Calculator",
+    image: "/images/projects/hiring-cost-calculator.png",
+    experience: "Instawork",
+    description:
+      "An interactive calculator (gated content) page I ran LinkedIn ads to that helped recruiters understand hiring costs and estimate Instawork’s ROI, while collecting their lead info.",
+    tools: ["Replit", "Hubspot", "Google Analytics"],
+    resources: [
+      { label: "Try Calculator", href: "https://hiringcalculator.instawork.com/", primary: true }
+    ]
   },
   {
     title: "Job Posting Onboarding",
@@ -48,14 +74,6 @@ const projectNotes = [
     description:
       "A redesigned job posting flow that let employers preview listings, see local worker supply, and skip payment and login steps to reduce onboarding friction.",
     tools: ["Replit", "Hubspot", "A/B Testing"]
-  },
-  {
-    title: "Hiring Cost & ROI Calculator",
-    image: "/images/projects/hiring-cost-calculator.png",
-    experience: "Instawork",
-    description:
-      "An interactive calculator (gated content) page I ran LinkedIn ads to that helped recruiters understand hiring costs and estimate Instawork’s ROI, while collecting their lead info.",
-    tools: ["Replit", "Hubspot", "Google Analytics"]
   }
 ];
 const projectNoteStyles = [
@@ -102,17 +120,19 @@ const projectNoteStyles = [
       <div class="max-w-3xl border-t border-rule pt-5 sm:-mt-2 sm:border-t-0 sm:pt-0">
         <p class="leading-8 text-ink">
           Hi, I’m Luca. I’m a senior at the University of Michigan studying business at
-          Ross. This summer, I'm working as a product management intern at Uber, where
-          I’m building AI features and tracking tools for Freight platforms. Before that,
-          I worked on growth at Instawork, a labor marketplace startup, and spent a summer
-          in Rio de Janeiro as an analyst at Fuse Capital, a crypto venture fund.
+          Ross. This summer, I’m a Product Management Intern at Uber Freight, where I’m
+          building AI features and tracking tools across $20B in freight under management.
+          Before that, I worked on growth at Instawork (a labor marketplace startup) and
+          spent a summer in Rio de Janeiro as an analyst at Fuse Capital (a crypto venture
+          fund).
         </p>
         <p class="mt-6 leading-8 text-ink">
           I’m Brazilian-American and grew up in Miami, where I became passionate about
           entrepreneurship, soccer, and the outdoors. In high school, I built a boat
-          dealership business and a real estate aerial photography operation. I balanced
-          both while competing as a midfielder in the MLS Next and Florida’s Olympic
-          Development Program, later joining the club soccer team at Michigan.
+          dealership business and a real estate aerial photography operation while
+          competing as a midfielder in MLS Next and Florida’s Olympic Development
+          Program. Since coming to Michigan, I’ve continued playing club soccer and have
+          enjoyed running, traveling, and exploring new food spots.
         </p>
       </div>
     </div>
@@ -133,10 +153,10 @@ const projectNoteStyles = [
       {
         projectNotes.map((project, index) => {
           const noteStyle = projectNoteStyles[index % projectNoteStyles.length];
-          return (
+          const card = (
           <article
             class:list={[
-              "group relative overflow-hidden border border-rule shadow-[0_1px_0_rgba(23,23,23,0.08),0_18px_38px_rgba(23,23,23,0.08)] transition duration-300 ease-out before:pointer-events-none before:absolute before:inset-0 before:bg-[linear-gradient(135deg,rgba(255,255,255,0.72),rgba(255,255,255,0)_38%)] before:content-[''] hover:-translate-y-1 hover:border-ink hover:shadow-[0_1px_0_rgba(23,23,23,0.12),0_24px_48px_rgba(23,23,23,0.12)]",
+              "relative overflow-hidden border border-rule shadow-[0_1px_0_rgba(23,23,23,0.08),0_18px_38px_rgba(23,23,23,0.08)] transition duration-300 ease-out before:pointer-events-none before:absolute before:inset-0 before:bg-[linear-gradient(135deg,rgba(255,255,255,0.72),rgba(255,255,255,0)_38%)] before:content-[''] group-hover:-translate-y-1 group-hover:border-ink group-hover:shadow-[0_1px_0_rgba(23,23,23,0.12),0_24px_48px_rgba(23,23,23,0.12)]",
               noteStyle.paper
             ]}
           >
@@ -147,62 +167,19 @@ const projectNoteStyles = [
               ]}
               aria-hidden="true"
             />
-            <div class="relative z-[1] grid gap-0 lg:grid-cols-[minmax(0,1.88fr)_minmax(250px,0.42fr)]">
-              <div class="relative min-h-64 overflow-hidden border-b border-rule bg-paper lg:min-h-[390px] lg:border-b-0 lg:border-r">
-                {project.secondaryImage ? (
-                  <div class="flex h-full min-h-64 flex-col justify-center gap-4 p-4 sm:p-6 lg:min-h-[390px]">
-                    <div class="overflow-hidden border border-rule bg-white/80 p-2 shadow-[0_1px_0_rgba(23,23,23,0.06),0_12px_26px_rgba(23,23,23,0.08)] transition duration-300 ease-out group-hover:-translate-y-1">
-                      <div class="mb-2 flex items-center gap-3">
-                        <span class="text-[10px] uppercase tracking-[0.14em] text-muted">
-                          {project.title === "Tracking Page AI Summary" ? "AI Summary Card" : "Risk UI"}
-                        </span>
-                        <span class="h-px flex-1 bg-rule/70" aria-hidden="true" />
-                      </div>
-                      <img
-                        src={project.image}
-                        alt={`${project.title} main preview`}
-                        class:list={[
-                          project.title === "Tracking Page AI Summary"
-                            ? "h-44 w-full object-contain object-center sm:h-52"
-                            : "mx-auto h-44 w-full object-contain sm:h-52"
-                        ]}
-                      />
-                    </div>
-                    <div class="ml-auto w-[62%] border border-rule/60 bg-white/45 p-2 opacity-75 shadow-[0_1px_0_rgba(23,23,23,0.03),0_8px_16px_rgba(23,23,23,0.04)] transition duration-300 ease-out group-hover:translate-y-1 group-hover:opacity-90 sm:w-[54%]">
-                      <div class="mb-2 flex items-center gap-3">
-                        <span class="text-[10px] uppercase tracking-[0.14em] text-muted">
-                          {project.secondaryLabel}
-                        </span>
-                        <span class="h-px flex-1 bg-rule/60" aria-hidden="true" />
-                      </div>
-                      <img
-                        src={project.secondaryImage}
-                        alt={`${project.title} supporting preview`}
-                        class:list={[
-                          "w-full object-cover object-top",
-                          project.title === "Tracking Page AI Summary" ? "aspect-[2.25/1]" : "aspect-[3/1]"
-                        ]}
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  <img
-                    src={project.image}
-                    alt={`${project.title} preview`}
-                    class:list={[
-                      "h-full w-full transition duration-300 ease-out group-hover:scale-[1.03]",
-                      project.imageFit === "contain"
-                        ? "object-contain object-center p-6 sm:p-8"
-                        : "object-cover object-top"
-                    ]}
-                  />
-                )}
+            <div class="project-layout relative z-[1] grid gap-0 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+              <div class="project-visual relative min-w-0 overflow-hidden border-b border-rule bg-paper lg:border-b-0 lg:border-r">
+                <img
+                  src={project.image}
+                  alt={`${project.title} preview`}
+                  class="absolute inset-0 h-full w-full object-contain object-center p-4 transition duration-300 ease-out group-hover:scale-[1.02] sm:p-6"
+                />
                 <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(247,244,238,0)_62%,rgba(247,244,238,0.52))] opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
               </div>
-              <div class="relative flex min-h-64 items-center justify-center p-5 sm:p-6 lg:min-h-[390px] lg:pl-2 xl:pr-7">
-                <div class="relative w-full max-w-[92%] border border-rule bg-paper/90 p-4 shadow-[0_1px_0_rgba(23,23,23,0.08),0_14px_30px_rgba(23,23,23,0.08)] backdrop-blur-sm lg:ml-0">
-                  <div class="mb-8 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 sm:gap-3">
-                    <span class="flex-none max-w-full whitespace-nowrap overflow-hidden text-ellipsis rounded-md border border-rule bg-[#fbfaf6] px-2 py-1 text-[11px] uppercase tracking-[0.08em] text-muted shadow-[0_1px_0_rgba(23,23,23,0.08),0_6px_18px_rgba(23,23,23,0.04)] sm:tracking-[0.1em]">
+              <div class="project-info relative flex min-w-0 items-center justify-center p-4 sm:p-5">
+                <div class="relative w-full min-w-0 border border-rule bg-paper/90 p-4 shadow-[0_1px_0_rgba(23,23,23,0.08),0_14px_30px_rgba(23,23,23,0.08)] backdrop-blur-sm">
+                  <div class="mb-5 grid grid-cols-[minmax(0,1fr)_1rem_auto] items-center gap-2">
+                    <span class:list={["flex-none max-w-full rounded-md border border-rule bg-[#fbfaf6] px-2 py-1 text-[11px] uppercase tracking-[0.08em] text-muted shadow-[0_1px_0_rgba(23,23,23,0.08),0_6px_18px_rgba(23,23,23,0.04)] sm:tracking-[0.1em]", project.resources ? "min-w-0 whitespace-normal leading-4" : "whitespace-nowrap overflow-hidden text-ellipsis"]}>
                       {project.experience}
                     </span>
                     <span class="h-px min-w-0 bg-rule/90" aria-hidden="true" />
@@ -210,8 +187,22 @@ const projectNoteStyles = [
                       0{index + 1}
                     </span>
                   </div>
-                  <h3 class="text-2xl font-normal leading-tight text-ink">{project.title}</h3>
-                  <p class="mt-4 text-base leading-7 text-muted">{project.description}</p>
+                  <h3 class="text-[22px] font-normal leading-tight text-ink">
+                    {project.slug && project.resources ? (
+                      <a href={project.slug} class="no-underline hover:underline focus-visible:outline focus-visible:outline-offset-4">{project.title}</a>
+                    ) : project.title}
+                  </h3>
+                  <p class="mt-4 text-sm leading-6 text-muted">{project.description}</p>
+                  {project.resources && (
+                    <div class="mt-5 flex flex-col items-start gap-3 text-sm text-ink">
+                      {project.resources.map((resource) => (
+                        <a href={resource.href} target="_blank" rel="noopener noreferrer" class:list={["focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4", resource.primary ? "inline-flex max-w-full items-center gap-2 rounded-md bg-ink px-3 py-2.5 text-sm leading-5 text-paper no-underline shadow-sm transition-opacity hover:opacity-80" : "text-xs text-muted underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-ink"]}>
+                          {resource.primary && <span aria-hidden="true" class="text-[10px]">{resource.label.startsWith("Watch Demo") ? "▶" : "↗"}</span>}
+                          {resource.label}
+                        </a>
+                      ))}
+                    </div>
+                  )}
                   <p class="mt-5 border-t border-rule/60 pt-3 text-[11px] leading-5 text-muted/80">
                     <span class="uppercase tracking-[0.14em]">Tools</span>
                     <span class="mx-2 text-rule" aria-hidden="true">/</span>
@@ -221,6 +212,16 @@ const projectNoteStyles = [
               </div>
             </div>
           </article>
+          );
+
+          return project.slug && !project.resources ? (
+            <a href={project.slug} class="group block no-underline">
+              {card}
+            </a>
+          ) : (
+            <div class="group">
+              {card}
+            </div>
           );
         })
       }
@@ -252,3 +253,11 @@ const projectNoteStyles = [
     </a>
   </section>
 </Layout>
+
+<style>
+  .project-visual { height: 300px; }
+  .project-info { min-height: 360px; }
+  @media (min-width: 1024px) {
+    .project-visual, .project-info { height: 500px; }
+  }
+</style>
