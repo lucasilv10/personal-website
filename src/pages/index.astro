@@ -27,10 +27,10 @@ const projectNotes = [
     title: "WHOOP Experiments",
     image: "/images/projects/whoop-experiments.png",
     carouselImages: [
-      { src: "/images/projects/whoop-experiments.png", alt: "WHOOP Experiments overview" },
-      { src: "/images/projects/whoop-experiments-coach-suggestion.png", alt: "WHOOP Coach experiment suggestion" },
-      { src: "/images/projects/whoop-experiments-setup.png", alt: "WHOOP experiment setup" },
-      { src: "/images/projects/whoop-experiments-daily-logging.png", alt: "WHOOP experiment daily logging" }
+      { src: "/images/projects/whoop-experiments.png", alt: "WHOOP Experiments overview", captionTitle: "See the impact", caption: "Compare sleep metrics before and during a habit change." },
+      { src: "/images/projects/whoop-experiments-coach-suggestion.png", alt: "WHOOP Coach experiment suggestion", captionTitle: "Start with a suggestion", caption: "Turn a WHOOP Coach insight into a habit to test." },
+      { src: "/images/projects/whoop-experiments-setup.png", alt: "WHOOP experiment setup", captionTitle: "Make it personal", caption: "Choose a daily goal for a seven-day experiment." },
+      { src: "/images/projects/whoop-experiments-daily-logging.png", alt: "WHOOP experiment daily logging", captionTitle: "Build a daily rhythm", caption: "Log the habit alongside existing Journal check-ins." }
     ],
     imageFit: "contain",
     experience: "WHOOP",
@@ -73,9 +73,9 @@ const projectNotes = [
     title: "Hiring Cost & ROI Calculator",
     image: "/images/projects/hiring-calculator-landing.png",
     carouselImages: [
-      { src: "/images/projects/hiring-calculator-landing.png", alt: "Hiring Cost Calculator landing page" },
-      { src: "/images/projects/hiring-calculator-inputs.png", alt: "Hiring Cost Calculator hiring inputs" },
-      { src: "/images/projects/hiring-calculator-analysis.png", alt: "Hiring Cost Calculator cost analysis and ROI comparison" }
+      { src: "/images/projects/hiring-calculator-landing.png", alt: "Hiring Cost Calculator landing page", captionTitle: "Find hidden hiring costs", caption: "Invite recruiters to explore potential savings." },
+      { src: "/images/projects/hiring-calculator-inputs.png", alt: "Hiring Cost Calculator hiring inputs", captionTitle: "Ground it in real numbers", caption: "Enter hiring volume, recruiting time, and spend." },
+      { src: "/images/projects/hiring-calculator-analysis.png", alt: "Hiring Cost Calculator cost analysis and ROI comparison", captionTitle: "Make the value visible", caption: "Compare hiring costs and estimate Instawork savings." }
     ],
     experience: "Instawork",
     description:
@@ -89,6 +89,12 @@ const projectNotes = [
   {
     title: "Job Posting",
     image: "/images/projects/job-posting-onboarding.png",
+    carouselImages: [
+      { src: "/images/projects/instawork_job_posting_01_basic_info.png", alt: "Job Posting Basic Information screen", captionTitle: "Preview from the start", caption: "See the listing take shape as details are entered." },
+      { src: "/images/projects/instawork_job_posting_02_job_details.png", alt: "Job Posting Job Details screen", captionTitle: "Define the role", caption: "Set pay, schedule, and requirements in one place." },
+      { src: "/images/projects/instawork_job_posting_03_package_selection.png", alt: "Job Posting Package Selection screen", captionTitle: "Choose a hiring plan", caption: "Compare packages alongside the job preview." },
+      { src: "/images/projects/instawork_job_posting_04_submission_confirmation.png", alt: "Job Posting Submission Confirmation screen", captionTitle: "Submit with clarity", caption: "Understand review and payment steps before going live." }
+    ],
     experience: "Instawork",
     description:
       "A redesigned job posting flow that let employers preview listings, see local worker supply, and skip payment and login steps to reduce onboarding friction.",
@@ -178,17 +184,25 @@ const projectNoteStyles = [
             <div class="project-layout relative z-[1] grid gap-0 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
               <div class="project-visual relative min-w-0 overflow-hidden border-b border-rule bg-paper lg:border-b-0 lg:border-r">
                 {project.carouselImages ? (
-                  <div class:list={["whoop-carousel", project.experience === "Instawork" && "calculator-carousel"]} data-project-carousel data-whoop-carousel={project.experience === "WHOOP" ? "" : undefined} data-loop={project.experience === "WHOOP" ? "true" : "false"} tabindex="0" role="region" aria-roledescription="carousel" aria-label={`${project.title} screens`}>
+                  <div class:list={["whoop-carousel", project.experience === "Instawork" && "calculator-carousel", project.title === "Hiring Cost & ROI Calculator" && "hiring-calculator-carousel", project.title === "Job Posting" && "job-posting-carousel"]} data-project-carousel data-whoop-carousel={project.experience === "WHOOP" ? "" : undefined} data-loop="true" tabindex="0" role="region" aria-roledescription="carousel" aria-label={`${project.title} screens`}>
                     <div class="whoop-carousel-track" data-carousel-track>
                       {project.carouselImages.map((slide, slideIndex) => (
                         <div class="whoop-carousel-slide" data-carousel-slide aria-hidden={slideIndex === 0 ? "false" : "true"}>
+                          <div class:list={["carousel-image-frame", project.title === "Job Posting" && "laptop-frame"]}>
                           <img
                             src={slide.src}
                             alt={slide.alt}
+                            width={project.title === "Job Posting" ? 1600 : undefined}
+                            height={project.title === "Job Posting" ? 1000 : undefined}
                             loading={slideIndex === 0 ? "eager" : "lazy"}
                             fetchpriority={slideIndex === 0 ? "high" : "auto"}
                             class:list={slideIndex === 0 && project.experience !== "Instawork" ? ["project-thumbnail", `project-thumbnail-${index}`, "absolute", "transition", "duration-300", "ease-out"] : ["whoop-carousel-image"]}
                           />
+                          </div>
+                          <div class="project-slide-caption" aria-hidden="true">
+                            <p class="project-slide-title">{slide.captionTitle}</p>
+                            <p>{slide.caption}</p>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -353,19 +367,31 @@ const projectNoteStyles = [
     let startX = 0;
     let startY = 0;
     let didSwipe = false;
+    let captionTimeout: number | undefined;
 
     const showSlide = (requestedSlide: number) => {
+      window.clearTimeout(captionTimeout);
       const nextSlide = loop && requestedSlide >= slides.length ? 0 : Math.max(0, Math.min(requestedSlide, slides.length - 1));
+      if (nextSlide !== activeSlide) carousel.classList.add("has-browsed");
       activeSlide = nextSlide;
       if (track) track.style.transform = `translateX(-${nextSlide * 100}%)`;
       previous && (previous.disabled = nextSlide === 0);
       next && (next.disabled = !loop && nextSlide === slides.length - 1);
       if (document.activeElement === previous && previous?.disabled) next?.focus({ preventScroll: true });
       if (document.activeElement === next && next?.disabled) previous?.focus({ preventScroll: true });
-      slides.forEach((slide, index) => slide.setAttribute("aria-hidden", String(index !== nextSlide)));
+      slides.forEach((slide, index) => {
+        slide.setAttribute("aria-hidden", String(index !== nextSlide));
+        slide.querySelector(".project-slide-caption")?.setAttribute("aria-hidden", String(index !== nextSlide || !carousel.classList.contains("has-browsed")));
+      });
       dots.forEach((dot, index) => dot.setAttribute("aria-current", String(index === nextSlide)));
       const image = slides[nextSlide]?.querySelector<HTMLImageElement>("img");
       if (status && image) status.textContent = `Showing screen ${nextSlide + 1} of ${slides.length}: ${image.alt}`;
+      if (nextSlide === 0 && carousel.classList.contains("has-browsed")) {
+        captionTimeout = window.setTimeout(() => {
+          carousel.classList.remove("has-browsed");
+          slides[0]?.querySelector(".project-slide-caption")?.setAttribute("aria-hidden", "true");
+        }, 3000);
+      }
     };
 
     previous?.addEventListener("click", (event) => { event.stopPropagation(); showSlide(activeSlide - 1); });
@@ -454,6 +480,52 @@ const projectNoteStyles = [
   .whoop-carousel-image { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
   .calculator-carousel .whoop-carousel-track { transition-duration: 250ms; }
   .calculator-carousel .whoop-carousel-image { object-fit: contain; padding: 12px 12px 36px; }
+  /* Match the visible laptop width of the Uber mockups, accounting for image margins. */
+  .hiring-calculator-carousel .whoop-carousel-image {
+    position: absolute;
+    left: 50%;
+    top: calc((100% - 100px) / 2);
+    width: min(calc((100cqw - 24px) / 0.945), calc(113cqh * 0.843 * 0.98 / 0.945));
+    height: auto;
+    max-width: none;
+    padding: 0;
+    transform: translate(-50%, -50%);
+  }
+  .carousel-image-frame { display: contents; }
+  .job-posting-carousel .laptop-frame {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: calc((100% - 100px) / 2);
+    width: min(calc((100cqw - 24px) * 0.9), calc(113cqh * 0.843 * 0.98 * 0.9));
+    padding: 2% 1.4% 2.4%;
+    border: 2px solid #909193;
+    border-radius: 4% 4% 2% 2% / 6% 6% 2% 2%;
+    background: #101112;
+    box-shadow: inset 0 0 0 2px #363739;
+    transform: translate(-50%, -50%);
+  }
+  .laptop-frame::before {
+    content: "";
+    position: absolute;
+    left: -5.55%;
+    bottom: -4%;
+    width: 111.1%;
+    height: 5%;
+    border: 1px solid #a1a2a4;
+    border-radius: 1px 1px 12% 12% / 1px 1px 70% 70%;
+    background: linear-gradient(#d5d6d7, #9b9c9e 55%, #565759 85%, #b6b7b8);
+    box-shadow: 0 5px 6px rgb(23 23 23 / 15%);
+  }
+  .laptop-frame::after { content: ""; position: absolute; left: 39%; bottom: -1.8%; width: 22%; height: 2%; border-radius: 0 0 8px 8px; background: #858688; }
+  .job-posting-carousel .whoop-carousel-image { width: 100%; height: auto; padding: 0; object-fit: contain; border-radius: 2px; }
+  [data-whoop-carousel] .whoop-carousel-image { height: calc(100% - 100px); object-fit: contain; }
+  [data-whoop-carousel] .project-thumbnail-0 { top: calc((100% - 100px) / 2); --image-height: calc((100cqh - 124px) / 0.94); }
+  .project-slide-caption { position: absolute; bottom: 36px; left: 16px; right: 16px; height: 56px; display: flex; flex-direction: column; justify-content: center; gap: 3px; color: #6b655e; text-align: center; font-size: 12px; line-height: 16px; }
+  .project-slide-caption { opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity 200ms ease-out, transform 240ms ease-out, visibility 200ms; }
+  .has-browsed [data-carousel-slide][aria-hidden="false"] .project-slide-caption { opacity: 1; visibility: visible; transform: translateY(0); transition-delay: 80ms; }
+  .project-slide-caption p { margin: 0; }
+  .project-slide-title { color: #292724; font-weight: 500; line-height: 18px; }
   .whoop-carousel-arrow { position: absolute; z-index: 2; top: 50%; display: grid; width: 44px; height: 44px; place-items: center; border: 1px solid rgba(38, 38, 38, 0.26); border-radius: 999px; color: #282828; font-size: 26px; background: rgba(252, 251, 247, 0.9); box-shadow: 0 2px 10px rgba(23, 23, 23, 0.12); cursor: pointer; opacity: 0; transform: translateY(-50%); transition: opacity 200ms ease-out, transform 200ms ease-out, background-color 200ms ease-out, visibility 200ms ease-out; }
   .whoop-carousel-arrow--previous { left: 12px; }
   .whoop-carousel-arrow--next { right: 12px; }
@@ -467,7 +539,11 @@ const projectNoteStyles = [
   .whoop-carousel-pagination button::after { content: ""; width: 6px; height: 6px; border-radius: 999px; background: rgba(38, 38, 38, 0.34); transition: width 200ms ease-out, background-color 200ms ease-out; }
   .whoop-carousel-pagination button[aria-current="true"]::after { width: 16px; background: #282828; }
   @media (hover: none), (pointer: coarse) { .whoop-carousel-arrow:not(:disabled) { opacity: 1; } }
-  @media (prefers-reduced-motion: reduce) { .whoop-carousel-track, .calculator-carousel .whoop-carousel-track, .whoop-carousel-arrow, .whoop-carousel-pagination button::after { transition: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .whoop-carousel-track, .calculator-carousel .whoop-carousel-track, .whoop-carousel-arrow, .whoop-carousel-pagination button::after, .project-slide-caption { transition: none; }
+    .project-slide-caption { transform: none; }
+    .has-browsed [data-carousel-slide][aria-hidden="false"] .project-slide-caption { transition-delay: 0ms; }
+  }
   .editorial-hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start; }
   .hero-portrait { width: 200px; max-width: 100%; }
   .hero-tagline { font-size: 34px; line-height: 1.12; text-wrap: balance; }
