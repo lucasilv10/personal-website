@@ -17,6 +17,11 @@ const writing = (await getCollection("writing"))
     return b.data.date.valueOf() - a.data.date.valueOf();
   });
 const selectedProjects = projects.slice(0, 3);
+const companyLogos: Record<string, string> = {
+  WHOOP: "/images/logos/whoop.png",
+  "Uber Freight": "/images/logos/uber.png",
+  Instawork: "/images/logos/instawork.png"
+};
 const projectNotes = [
   {
     title: "WHOOP Experiments",
@@ -25,8 +30,7 @@ const projectNotes = [
       { src: "/images/projects/whoop-experiments.png", alt: "WHOOP Experiments overview" },
       { src: "/images/projects/whoop-experiments-coach-suggestion.png", alt: "WHOOP Coach experiment suggestion" },
       { src: "/images/projects/whoop-experiments-setup.png", alt: "WHOOP experiment setup" },
-      { src: "/images/projects/whoop-experiments-daily-logging.png", alt: "WHOOP experiment daily logging" },
-      { src: "/images/projects/whoop-experiments-results.png", alt: "WHOOP experiment results" }
+      { src: "/images/projects/whoop-experiments-daily-logging.png", alt: "WHOOP experiment daily logging" }
     ],
     imageFit: "contain",
     experience: "WHOOP",
@@ -67,7 +71,12 @@ const projectNotes = [
   },
   {
     title: "Hiring Cost & ROI Calculator",
-    image: "/images/projects/hiring-cost-calculator.png",
+    image: "/images/projects/hiring-calculator-landing.png",
+    carouselImages: [
+      { src: "/images/projects/hiring-calculator-landing.png", alt: "Hiring Cost Calculator landing page" },
+      { src: "/images/projects/hiring-calculator-inputs.png", alt: "Hiring Cost Calculator hiring inputs" },
+      { src: "/images/projects/hiring-calculator-analysis.png", alt: "Hiring Cost Calculator cost analysis and ROI comparison" }
+    ],
     experience: "Instawork",
     description:
       "An interactive calculator (gated content) page I ran LinkedIn ads to that helped recruiters understand hiring costs and estimate Instawork’s ROI, while collecting their lead info.",
@@ -168,7 +177,7 @@ const projectNoteStyles = [
             <div class="project-layout relative z-[1] grid gap-0 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
               <div class="project-visual relative min-w-0 overflow-hidden border-b border-rule bg-paper lg:border-b-0 lg:border-r">
                 {project.carouselImages ? (
-                  <div class="whoop-carousel" data-whoop-carousel tabindex="0" role="region" aria-roledescription="carousel" aria-label="WHOOP Experiments screens">
+                  <div class:list={["whoop-carousel", project.experience === "Instawork" && "calculator-carousel"]} data-project-carousel data-whoop-carousel={project.experience === "WHOOP" ? "" : undefined} data-loop={project.experience === "WHOOP" ? "true" : "false"} tabindex="0" role="region" aria-roledescription="carousel" aria-label={`${project.title} screens`}>
                     <div class="whoop-carousel-track" data-carousel-track>
                       {project.carouselImages.map((slide, slideIndex) => (
                         <div class="whoop-carousel-slide" data-carousel-slide aria-hidden={slideIndex === 0 ? "false" : "true"}>
@@ -177,14 +186,14 @@ const projectNoteStyles = [
                             alt={slide.alt}
                             loading={slideIndex === 0 ? "eager" : "lazy"}
                             fetchpriority={slideIndex === 0 ? "high" : "auto"}
-                            class:list={slideIndex === 0 ? ["project-thumbnail", "project-thumbnail-0", "absolute", "transition", "duration-300", "ease-out"] : ["whoop-carousel-image"]}
+                            class:list={slideIndex === 0 && project.experience !== "Instawork" ? ["project-thumbnail", `project-thumbnail-${index}`, "absolute", "transition", "duration-300", "ease-out"] : ["whoop-carousel-image"]}
                           />
                         </div>
                       ))}
                     </div>
-                    <button class="whoop-carousel-arrow whoop-carousel-arrow--previous" type="button" data-carousel-previous aria-label="Previous WHOOP Experiments screen">‹</button>
-                    <button class="whoop-carousel-arrow whoop-carousel-arrow--next" type="button" data-carousel-next aria-label="Next WHOOP Experiments screen">›</button>
-                    <div class="whoop-carousel-pagination" aria-label="WHOOP Experiments screens">
+                    <button class="whoop-carousel-arrow whoop-carousel-arrow--previous" type="button" data-carousel-previous aria-label={`Previous ${project.title} screen`} disabled>‹</button>
+                    <button class="whoop-carousel-arrow whoop-carousel-arrow--next" type="button" data-carousel-next aria-label={`Next ${project.title} screen`}>›</button>
+                    <div class="whoop-carousel-pagination" aria-label={`${project.title} screens`}>
                       {project.carouselImages.map((slide, slideIndex) => (
                         <button type="button" data-carousel-dot={slideIndex} aria-label={`Show screen ${slideIndex + 1}: ${slide.alt}`} aria-current={slideIndex === 0 ? "true" : "false"} />
                       ))}
@@ -202,9 +211,13 @@ const projectNoteStyles = [
               </div>
               <div class="project-info relative flex min-w-0 items-center justify-center p-4 sm:p-5">
                 <div class="relative w-full min-w-0 border border-rule bg-paper/90 p-4 shadow-[0_1px_0_rgba(23,23,23,0.08),0_14px_30px_rgba(23,23,23,0.08)] backdrop-blur-sm">
-                  <div class="mb-5 grid grid-cols-[minmax(0,1fr)_1rem_auto] items-center gap-2">
-                    <span class:list={["flex-none max-w-full rounded-md border border-rule bg-[#fbfaf6] px-2 py-1 text-[11px] uppercase tracking-[0.08em] text-muted shadow-[0_1px_0_rgba(23,23,23,0.08),0_6px_18px_rgba(23,23,23,0.04)] sm:tracking-[0.1em]", project.resources ? "min-w-0 whitespace-normal leading-4" : "whitespace-nowrap overflow-hidden text-ellipsis"]}>
-                      {project.experience}
+                  <div class="mb-2 grid grid-cols-[minmax(0,1fr)_1rem_auto] items-center gap-2">
+                    <span title={project.experience === "WHOOP" ? "Independent product concept; not affiliated with WHOOP" : undefined} class:list={["company-badge justify-self-start flex flex-none h-[38px] items-center gap-2 max-w-full rounded-md border border-rule bg-[#fbfaf6] px-2.5 py-1 text-[11px] uppercase tracking-[0.08em] text-muted shadow-[0_1px_0_rgba(23,23,23,0.08),0_6px_18px_rgba(23,23,23,0.04)] sm:tracking-[0.1em]", project.resources ? "min-w-0 whitespace-normal leading-4" : "whitespace-nowrap overflow-hidden text-ellipsis"]}>
+                      {companyLogos[project.experience] && (
+                        <img class="company-logo" data-company={project.experience} src={companyLogos[project.experience]} alt={project.experience === "Uber Freight" ? "Uber" : project.experience} width={project.experience === "Instawork" ? 90 : project.experience === "WHOOP" ? 66 : 44} height="22" decoding="async" data-company-logo />
+                      )}
+                      <span class="whitespace-nowrap" data-company-name={project.experience} hidden={!!companyLogos[project.experience] && project.experience !== "Uber Freight"}>{project.experience === "Uber Freight" ? "Freight" : project.experience}</span>
+                      {project.experience === "WHOOP" && <span class="sr-only">Independent product concept; not affiliated with WHOOP.</span>}
                     </span>
                     <span class="h-px min-w-0 bg-rule/90" aria-hidden="true" />
                     <span class="flex-none whitespace-nowrap pl-1 text-[11px] uppercase tracking-[0.14em] text-muted">
@@ -260,7 +273,7 @@ const projectNoteStyles = [
     </div>
   </section>
 
-  <section class="border-b border-rule pb-12 pt-12">
+  <section id="experience" class="border-b border-rule pb-12 pt-12" data-nav-section="experience">
     <div class="mb-6">
       <h2 class="text-2xl font-normal uppercase tracking-[0.12em] text-ink">Experience</h2>
     </div>
@@ -293,6 +306,18 @@ const projectNoteStyles = [
 </Layout>
 
 <script>
+  document.querySelectorAll<HTMLImageElement>("[data-company-logo]").forEach((image) => {
+    const showCompanyName = () => {
+      const label = image.parentElement?.querySelector<HTMLElement>("[data-company-name]");
+      if (label) {
+        label.textContent = label.dataset.companyName ?? "";
+        label.hidden = false;
+      }
+      image.remove();
+    };
+    image.addEventListener("error", showCompanyName, { once: true });
+    if (image.complete && image.naturalWidth === 0) showCompanyName();
+  });
   document.querySelectorAll<HTMLElement>("[data-project-card]").forEach((card) => {
     const firstLink = card.querySelector<HTMLAnchorElement>("a[href]");
     if (!firstLink) return;
@@ -311,7 +336,8 @@ const projectNoteStyles = [
     card.prepend(primaryLink);
   });
 
-  document.querySelectorAll<HTMLElement>("[data-whoop-carousel]").forEach((carousel) => {
+  document.querySelectorAll<HTMLElement>("[data-project-carousel]").forEach((carousel) => {
+    const loop = carousel.dataset.loop === "true";
     const card = carousel.closest<HTMLElement>("[data-project-card]");
     const cardLink = card?.querySelector<HTMLAnchorElement>(":scope > .project-card-primary");
     const track = carousel.querySelector<HTMLElement>("[data-carousel-track]");
@@ -326,11 +352,13 @@ const projectNoteStyles = [
     let didSwipe = false;
 
     const showSlide = (requestedSlide: number) => {
-      const nextSlide = Math.max(0, Math.min(requestedSlide, slides.length - 1));
+      const nextSlide = loop && requestedSlide >= slides.length ? 0 : Math.max(0, Math.min(requestedSlide, slides.length - 1));
       activeSlide = nextSlide;
       if (track) track.style.transform = `translateX(-${nextSlide * 100}%)`;
       previous && (previous.disabled = nextSlide === 0);
-      next && (next.disabled = nextSlide === slides.length - 1);
+      next && (next.disabled = !loop && nextSlide === slides.length - 1);
+      if (document.activeElement === previous && previous?.disabled) next?.focus({ preventScroll: true });
+      if (document.activeElement === next && next?.disabled) previous?.focus({ preventScroll: true });
       slides.forEach((slide, index) => slide.setAttribute("aria-hidden", String(index !== nextSlide)));
       dots.forEach((dot, index) => dot.setAttribute("aria-current", String(index === nextSlide)));
       const image = slides[nextSlide]?.querySelector<HTMLImageElement>("img");
@@ -371,6 +399,9 @@ const projectNoteStyles = [
 </script>
 
 <style>
+  .company-logo { width: auto; height: 22px; max-width: 100%; min-width: 0; flex: 0 1 auto; object-fit: contain; }
+  .company-logo[data-company="WHOOP"] { height: 20px; }
+  .company-logo[data-company="Instawork"] { height: 24px; }
   [data-project-card]:has(> .project-card-primary) { cursor: pointer; }
   [data-project-card] :global(.project-card-primary) {
     position: absolute;
@@ -386,21 +417,25 @@ const projectNoteStyles = [
   [data-project-card] .project-layout a { pointer-events: auto; }
   .whoop-carousel { position: relative; z-index: 1; width: 100%; height: 100%; overflow: hidden; pointer-events: auto; touch-action: pan-y; }
   .whoop-carousel:focus-visible { outline: 2px solid currentColor; outline-offset: -4px; }
-  .whoop-carousel-track { display: flex; width: 100%; height: 100%; transition: transform 250ms ease-out; will-change: transform; }
+  .whoop-carousel-track { display: flex; width: 100%; height: 100%; transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1); will-change: transform; }
   .whoop-carousel-slide { position: relative; flex: 0 0 100%; width: 100%; height: 100%; overflow: hidden; }
   .whoop-carousel-image { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
-  .whoop-carousel-arrow { position: absolute; z-index: 2; top: 50%; display: grid; width: 32px; height: 32px; place-items: center; border: 1px solid rgba(38, 38, 38, 0.26); border-radius: 999px; color: #282828; background: rgba(252, 251, 247, 0.9); box-shadow: 0 2px 10px rgba(23, 23, 23, 0.12); opacity: 0; transform: translateY(-50%); transition: opacity 180ms ease-out, background-color 180ms ease-out; }
+  .calculator-carousel .whoop-carousel-track { transition-duration: 250ms; }
+  .calculator-carousel .whoop-carousel-image { object-fit: contain; padding: 12px 12px 36px; }
+  .whoop-carousel-arrow { position: absolute; z-index: 2; top: 50%; display: grid; width: 44px; height: 44px; place-items: center; border: 1px solid rgba(38, 38, 38, 0.26); border-radius: 999px; color: #282828; font-size: 26px; background: rgba(252, 251, 247, 0.9); box-shadow: 0 2px 10px rgba(23, 23, 23, 0.12); cursor: pointer; opacity: 0; transform: translateY(-50%); transition: opacity 200ms ease-out, transform 200ms ease-out, background-color 200ms ease-out, visibility 200ms ease-out; }
   .whoop-carousel-arrow--previous { left: 12px; }
   .whoop-carousel-arrow--next { right: 12px; }
   .whoop-carousel:hover .whoop-carousel-arrow, .whoop-carousel:focus-within .whoop-carousel-arrow { opacity: 1; }
-  .whoop-carousel-arrow:hover:not(:disabled) { background: #fcfbf7; }
-  .whoop-carousel-arrow:disabled { cursor: default; opacity: 0.38; }
+  .whoop-carousel-arrow:hover:not(:disabled) { background: #fcfbf7; transform: translateY(-50%) scale(1.08); }
+  .whoop-carousel-arrow:active:not(:disabled) { transform: translateY(-50%) scale(0.96); }
+  .whoop-carousel .whoop-carousel-arrow:disabled { visibility: hidden; pointer-events: none; opacity: 0; transform: translateY(-50%) scale(0.85); }
   .whoop-carousel-arrow:focus-visible, .whoop-carousel-pagination button:focus-visible { outline: 2px solid #282828; outline-offset: 3px; }
-  .whoop-carousel-pagination { position: absolute; z-index: 2; bottom: 12px; left: 50%; display: flex; align-items: center; gap: 6px; padding: 5px 7px; border: 1px solid rgba(38, 38, 38, 0.12); border-radius: 999px; background: rgba(252, 251, 247, 0.78); transform: translateX(-50%); }
-  .whoop-carousel-pagination button { width: 6px; height: 6px; padding: 0; border: 0; border-radius: 999px; background: rgba(38, 38, 38, 0.34); transition: transform 180ms ease-out, background-color 180ms ease-out; }
-  .whoop-carousel-pagination button[aria-current="true"] { background: #282828; transform: scale(1.18); }
-  @media (hover: none), (pointer: coarse) { .whoop-carousel-arrow { display: none; } }
-  @media (prefers-reduced-motion: reduce) { .whoop-carousel-track, .whoop-carousel-arrow, .whoop-carousel-pagination button { transition: none; } }
+  .whoop-carousel-pagination { position: absolute; z-index: 2; bottom: 6px; left: 50%; display: flex; align-items: center; padding: 0 4px; border: 1px solid rgba(38, 38, 38, 0.12); border-radius: 999px; background: rgba(252, 251, 247, 0.9); transform: translateX(-50%); }
+  .whoop-carousel-pagination button { display: grid; place-items: center; width: 24px; height: 24px; padding: 0; border: 0; background: transparent; cursor: pointer; }
+  .whoop-carousel-pagination button::after { content: ""; width: 6px; height: 6px; border-radius: 999px; background: rgba(38, 38, 38, 0.34); transition: width 200ms ease-out, background-color 200ms ease-out; }
+  .whoop-carousel-pagination button[aria-current="true"]::after { width: 16px; background: #282828; }
+  @media (hover: none), (pointer: coarse) { .whoop-carousel-arrow:not(:disabled) { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .whoop-carousel-track, .calculator-carousel .whoop-carousel-track, .whoop-carousel-arrow, .whoop-carousel-pagination button::after { transition: none; } }
   .editorial-hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start; }
   .hero-portrait { width: 200px; max-width: 100%; }
   .hero-tagline { font-size: 34px; line-height: 1.12; text-wrap: balance; }

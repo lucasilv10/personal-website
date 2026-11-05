@@ -1,14 +1,15 @@
 ---
 const navItems = [
-  { href: "/", label: "About", navKey: "about" },
-  { href: "/#projects", label: "Projects", navKey: "projects" },
-  { href: "/#writing", label: "Writing", navKey: "writing" },
-  { href: "/interview", label: "Personal", navKey: "personal" }
+  { href: "/interview#life", label: "About", navKey: "about", newTab: false },
+  { href: "/#projects", label: "Projects", navKey: "projects", newTab: false },
+  { href: "/#experience", label: "Experience", navKey: "experience", newTab: false },
+  { href: "/interview", label: "Life", navKey: "personal", newTab: false }
 ];
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 const pageKey = currentPath.startsWith("/projects") ? "projects"
   : currentPath.startsWith("/writing") ? "writing"
-  : currentPath === "/interview" ? "personal" : "about";
+  : currentPath === "/interview" ? "personal"
+  : "about";
 ---
 
 <header class="site-container">
@@ -19,7 +20,7 @@ const pageKey = currentPath.startsWith("/projects") ? "projects"
     </button>
     <nav id="primary-links" class="primary-links" aria-label="Primary navigation">
       {navItems.map((item) => (
-        <a href={item.href} data-nav-link={item.navKey} aria-current={pageKey === item.navKey ? "page" : undefined} class:list={["nav-link text-base text-muted no-underline hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4", pageKey === item.navKey && "is-active"]}>
+        <a href={item.href} target={item.newTab ? "_blank" : undefined} rel={item.newTab ? "noopener noreferrer" : undefined} data-nav-link={item.navKey} aria-current={pageKey === item.navKey ? "page" : undefined} class:list={["nav-link text-base text-muted no-underline hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4", pageKey === item.navKey && "is-active"]}>
           <span class="nav-label">{item.label}</span>
         </a>
       ))}
@@ -28,6 +29,8 @@ const pageKey = currentPath.startsWith("/projects") ? "projects"
 </header>
 
 <style>
+  :global(html) { scroll-behavior: smooth; }
+  :global(#projects), :global(#experience), :global(#about-me) { scroll-margin-top: 84px; }
   .site-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; min-height: 68px; }
   .menu-toggle { display: inline-flex; width: 44px; height: 44px; align-items: center; justify-content: center; color: #171717; }
   .menu-toggle:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
@@ -52,6 +55,7 @@ const pageKey = currentPath.startsWith("/projects") ? "projects"
   .nav-link:is(:hover, :focus-visible) .nav-label::after { transform: scaleX(1); }
   .nav-link.is-active { color: #171717; font-weight: 600; }
   @media (prefers-reduced-motion: reduce) {
+    :global(html) { scroll-behavior: auto; }
     .nav-link, .nav-label::after { transition: none; }
   }
   @media (min-width: 768px) {

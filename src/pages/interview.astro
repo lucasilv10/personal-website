@@ -1,59 +1,89 @@
 ---
 import Layout from "../components/Layout.astro";
-
-const qa = [
-  {
-    question: "A childhood trait i still carry with me",
-    answer:
-      "I’ve always been a bit like a chameleon of environments. I’m just as curious talking to the fisherman under the bridge as I am talking to the person selling his 40 foot center console boat, whether that’s in English, Spanish, Portuguese, or a language I don’t fully know. I think that curiosity makes me comfortable around very different kinds of people."
-  },
-  {
-    question: "A product space I'm excited about",
-    answer:
-      "I’m interested in how U.S. consumer apps help people make better decisions, whether that’s around money, health, productivity, etc... and the potential of those products if they were built tailored for Latin America."
-  },
-  {
-    question: "Experience that shaped me",
-    answer:
-      "Backpacking through Southeast Asia made life feel simpler in the best way. It helped me think more clearly about what deserves my energy, how to be a more forgiving person, and how short and sweet the present moment really is."
-  },
-  {
-    question: "When I feel most like myself",
-    answer:
-      "I feel most like myself when I’m fully present. Sometimes that’s on a soccer field or in a high-stakes moment, and other times it’s around family and close friends where I’m relaxed and not filtering anything."
-  }
-];
 ---
 
-<Layout
-  title="Personal"
-  description="A Q&A-style interview page with Luca Silveira on curiosity, culture, product ideas, and presence."
->
-  <header class="mb-6">
-    <h1 class="max-w-4xl text-4xl font-normal leading-tight tracking-normal text-ink sm:text-5xl">
-      Personal
-    </h1>
-    <p class="mt-6 max-w-3xl text-lg leading-8 text-muted">A bit more about me...</p>
-    <p class="mt-3 text-lg text-ink">Miami, FL</p>
-    <p class="mt-1 text-base text-muted">25.8648° N, 80.1806° W</p>
-    <div class="mt-6 h-0.5 w-full bg-ink" aria-hidden="true" />
-  </header>
-
-  <div class="mt-8 grid gap-8 sm:grid-cols-[240px_1fr] sm:items-start lg:gap-12">
-    <img
-      src="/images/luca-headshot.png"
-      alt="Luca Silveira headshot"
-      class="w-56 max-w-full border border-rule object-cover sm:mt-1 sm:w-full"
-    />
-    <section class="max-w-3xl sm:pl-2">
-      {
-        qa.map((item) => (
-          <article class="py-6 first:pt-0">
-            <h2 class="text-lg font-normal leading-7 text-ink">{item.question}</h2>
-            <p class="mt-3 max-w-3xl text-sm leading-6 text-muted">{item.answer}</p>
-          </article>
-        ))
-      }
+<Layout title="Life" description="Stories from Luca Silveira's life: growing up between cultures, selling boats in Miami, traveling, and finding connection through soccer.">
+  <article id="life" class="life">
+    <header class="opening">
+      <div>
+        <h1>Life</h1>
+        <p class="lead">Different places, familiar curiosity.</p>
+        <p>I'm Brazilian-American and grew up in Miami. I've also lived in France, Switzerland, and different parts of the US. Moving between Portuguese, Spanish, and English feels natural to me; so does being curious about people whose lives look nothing like mine.</p>
+        <p>In Miami, that could mean talking to fishermen under a bridge or someone buying their first boat. I like the conversations I didn't plan to have.</p>
+      </div>
+      <figure class="portrait"><img src="/images/life/bench.jpg" width="900" height="1200" alt="Luca enjoying a snack on a sunny park bench" fetchpriority="high" /></figure>
+    </header>
+    <section class="stories" aria-label="Experiences that shaped me">
+      <div class="boats">
+        <h2>Figuring it out, one boat at a time</h2>
+        <p>At 15, I started buying and selling boats in Miami. Over 30 boats later, what stays with me is the people I met along the way. I enjoyed figuring things out independently, but meeting customers was just as much a part of the experience as the boats themselves.</p>
+      </div>
+      <div class="travel story-row">
+        <figure><img src="/images/life/photo-3535.jpg" width="1050" height="1400" alt="Two people riding an ATV across sand dunes" loading="lazy" decoding="async" /></figure>
+        <div>
+          <h2>A little less, a little further</h2>
+          <p>I've traveled to roughly 30 countries, often with a backpack and an interest in places I know little about. Surfing and hiking are good reasons to get outside, too.</p>
+          <p>Backpacking through Southeast Asia made me think differently about happiness. Life felt simpler, and I came home more conscious of what deserves my time. I don't always get that balance right, but it's something I keep coming back to.</p>
+        </div>
+      </div>
+      <div class="soccer-story">
+        <figure class="group"><img src="/images/life/photo-5014.jpg" width="1400" height="1050" alt="Luca taking a group selfie with young soccer players beside a goal" loading="lazy" decoding="async" /></figure>
+        <div class="story-row soccer-row">
+          <div>
+            <h2>Nothing else on my mind</h2>
+            <p>Soccer has been a constant through different places and stages of my life. I love the competitiveness and the friendships, but also how completely absorbed I feel when I'm playing. For a while, there's nothing to think about beyond the game and the people on the field.</p>
+          </div>
+          <figure><img src="/images/life/soccer.jpg" width="1400" height="962" alt="Luca dribbling a soccer ball during a game" loading="lazy" decoding="async" /></figure>
+        </div>
+      </div>
     </section>
-  </div>
+    <section class="closing story-row" aria-labelledby="stays-heading">
+      <figure><img src="/images/life/photo-3301.jpg" width="1400" height="1050" alt="Luca and another person overlooking the Golden Gate Bridge" loading="lazy" decoding="async" /></figure>
+      <div>
+        <h2 id="stays-heading">What stays with me</h2>
+        <p>Family, close friends, and finding common ground with people from different backgrounds matter most to me. Living across cultures also leaves me wondering what we could learn from each other, including how ideas travel to places like Latin America. Mostly, I want to keep making time for people and unfamiliar places.</p>
+      </div>
+    </section>
+  </article>
 </Layout>
+
+<style>
+  .life { scroll-margin-top: 32px; }
+  .life h1, .life h2, .lead { font-family: Georgia, "Times New Roman", serif; font-weight: 400; letter-spacing: 0; }
+  .life h1 { font-size: 56px; line-height: 1.1; margin-bottom: 28px; }
+  .lead { font-size: 32px; line-height: 1.25; margin-bottom: 24px; max-width: 16ch; }
+  .life h2 { font-size: 28px; line-height: 1.25; margin-bottom: 20px; }
+  .life p:not(.lead) { font-size: 17px; line-height: 1.75; color: #45413d; }
+  .life p + p { margin-top: 16px; }
+  .life figure { margin: 0; min-width: 0; }
+  .life img { display: block; width: 100%; height: auto; border-radius: 3px; }
+  .opening { display: grid; grid-template-columns: 1.25fr 0.85fr; gap: 80px; align-items: center; }
+  .portrait { max-width: 350px; justify-self: end; }
+  .stories { margin-top: 72px; }
+  .boats { max-width: 68ch; border-top: 1px solid #d8d2c9; padding-top: 32px; margin-bottom: 64px; }
+  .story-row { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .travel { grid-template-columns: 0.85fr 1.25fr; }
+  .travel figure { max-width: 350px; }
+  .soccer-story { margin-top: 72px; }
+  .group { max-width: 850px; margin-inline: auto !important; }
+  .soccer-row { margin-top: 40px; grid-template-columns: 0.85fr 1.15fr; gap: 48px; }
+  .closing { margin-top: 72px; padding-top: 48px; border-top: 1px solid #d8d2c9; }
+  @media (max-width: 900px) {
+    .opening, .story-row { gap: 32px; }
+    .life h1 { font-size: 48px; }
+    .lead { font-size: 28px; }
+  }
+  @media (max-width: 600px) {
+    .opening, .story-row { grid-template-columns: 1fr; }
+    .life h1 { font-size: 44px; margin-bottom: 24px; }
+    .life h2 { font-size: 26px; }
+    .portrait { width: 80%; max-width: 300px; justify-self: center; }
+    .stories, .soccer-story, .closing { margin-top: 48px; }
+    .boats { margin-bottom: 40px; }
+    .travel > div { grid-row: 1; }
+    .travel figure { width: 80%; justify-self: center; }
+    .soccer-row { margin-top: 32px; }
+    .closing { padding-top: 32px; }
+    .closing > div { grid-row: 1; }
+  }
+</style>
