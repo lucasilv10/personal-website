@@ -1,6 +1,6 @@
 ---
 const navItems = [
-  { href: "/interview#life", label: "About", navKey: "about", newTab: false },
+  { href: "/#about-me", label: "About", navKey: "about", newTab: false },
   { href: "/#projects", label: "Projects", navKey: "projects", newTab: false },
   { href: "/#experience", label: "Experience", navKey: "experience", newTab: false },
   { href: "/interview", label: "Life", navKey: "personal", newTab: false }
@@ -12,6 +12,8 @@ const pageKey = currentPath.startsWith("/projects") ? "projects"
   : "about";
 ---
 
+<div class="navigation-space">
+<div class="scroll-navigation">
 <header class="site-container">
   <div class="site-header border-b border-rule">
     <a href="/" aria-label="Luca Silveira home" class="font-serif text-2xl font-semibold text-ink no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">LS.</a>
@@ -27,10 +29,16 @@ const pageKey = currentPath.startsWith("/projects") ? "projects"
     </nav>
   </div>
 </header>
+</div>
+</div>
 
 <style>
   :global(html) { scroll-behavior: smooth; }
   :global(#projects), :global(#experience), :global(#about-me) { scroll-margin-top: 84px; }
+  .navigation-space { height: 68px; }
+  .scroll-navigation { position: fixed; inset: 0 0 auto; z-index: 50; background: #f7f4ee; transform: translateY(0); transition: transform 200ms ease-out; }
+  .scroll-navigation.is-hidden { transform: translateY(-100%); }
+  .scroll-navigation:has(:focus-visible) { transform: translateY(0); }
   .site-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; min-height: 68px; }
   .menu-toggle { display: inline-flex; width: 44px; height: 44px; align-items: center; justify-content: center; color: #171717; }
   .menu-toggle:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
@@ -56,7 +64,7 @@ const pageKey = currentPath.startsWith("/projects") ? "projects"
   .nav-link.is-active { color: #171717; font-weight: 600; }
   @media (prefers-reduced-motion: reduce) {
     :global(html) { scroll-behavior: auto; }
-    .nav-link, .nav-label::after { transition: none; }
+    .nav-link, .nav-label::after, .scroll-navigation { transition: none; }
   }
   @media (min-width: 768px) {
     .site-header { flex-wrap: nowrap; }
@@ -67,12 +75,14 @@ const pageKey = currentPath.startsWith("/projects") ? "projects"
 </style>
 
 <script>
+  const scrollNavigation = document.querySelector<HTMLElement>(".scroll-navigation");
   const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
   const navigation = document.querySelector<HTMLElement>("#primary-links");
   const setMenu = (open: boolean) => {
     toggle?.setAttribute("aria-expanded", String(open));
     toggle?.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
     navigation?.classList.toggle("is-open", open);
+    if (open) scrollNavigation?.classList.remove("is-hidden");
   };
   toggle?.addEventListener("click", () => setMenu(toggle.getAttribute("aria-expanded") !== "true"));
   navigation?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setMenu(false)));
@@ -86,6 +96,19 @@ const pageKey = currentPath.startsWith("/projects") ? "projects"
     if (event.target instanceof Element && !event.target.closest(".site-header")) setMenu(false);
   });
   window.matchMedia("(min-width: 768px)").addEventListener("change", () => setMenu(false));
+
+  let previousScrollY = Math.max(0, window.scrollY);
+  window.addEventListener("scroll", () => {
+    const currentScrollY = Math.max(0, Math.min(window.scrollY, document.documentElement.scrollHeight - window.innerHeight));
+    const keepVisible = currentScrollY <= 100 || toggle?.getAttribute("aria-expanded") === "true" || scrollNavigation?.querySelector(":focus-visible");
+    if (keepVisible || currentScrollY < previousScrollY) {
+      scrollNavigation?.classList.remove("is-hidden");
+    } else if (currentScrollY > previousScrollY) {
+      scrollNavigation?.classList.add("is-hidden");
+    }
+    previousScrollY = currentScrollY;
+  }, { passive: true });
+  scrollNavigation?.addEventListener("focusin", () => scrollNavigation.classList.remove("is-hidden"));
 
   if (window.location.pathname === "/") {
     const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-nav-section]"));
